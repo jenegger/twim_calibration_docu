@@ -1,0 +1,55 @@
+\documentclass{report}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+ }
+\usepackage[latin1]{inputenc}% erm\"oglich die direkte Eingabe der Umlaute 
+\usepackage[T1]{fontenc} % das Trennen der Umlaute
+\usepackage{ngerman} % hiermit werden deutsche Bezeichnungen genutzt und 
+                     % die W\"orter werden anhand der neue Rechtschreibung 
+             % automatisch getrennt. 
+\usepackage{graphicx}
+\usepackage{comment}
+\usepackage{hyperref}
+\graphicspath{ {./} }
+\usepackage{subcaption}
+\newcommand{\sectionbreak}{\clearpage}
+\usepackage[section]{placeins}
+\usepackage{subcaption}
+\title{Step by step TWIM Calibration}
+\begin{document}
+
+\maketitle
+
+\section{Overview}
+For this calibration I used the data of Experiment S455 in March 2021, Run 273, subruns 1-48.
+\begin{enumerate}
+	\item Alignment of the energy per Anode for each Section
+	\item Alignment of the energy per Section
+\end{enumerate}
+Info: I always count from 0 to 15.
+
+\section{Alignment of the energy per Anode for each Section}
+For the Energy, you should first align all teh gain per anode by plotting for each section:\newline 
+Eraw[anode i] vs Eraw[anode ref].\newline
+anode ref = the 5th anode\newline
+I plot these 2D histos only for events where the 16 anodes per section have seen an ion. (no specific tpat selection needed).
+\subsection{Computing}
+First run the program \dq small\textunderscore script\textunderscore hist.C\dq{} for all subruns. Then use \dq hadd\dq{} to add up the .root
+files. The combined .root file can then be used for the scrip called \dq retrieve\textunderscore fits\textunderscore hist.C \dq{}. This one makes nice canvases for the plots anode[i] vs anode\textunderscore ref and stores the fit parameters under 
+parameters\textunderscore twim\textunderscore anodes.csv.
+
+
+
+\section{Calibration of the sections}
+
+\section{Preparation of the MWPCs}
+
+
+
+
+\end{document}
+
