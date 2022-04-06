@@ -19,6 +19,7 @@
 \newcommand{\sectionbreak}{\clearpage}
 \usepackage[section]{placeins}
 \usepackage{subcaption}
+\usepackage{mathtools}
 \title{Step by step TWIM Calibration}
 \begin{document}
 
@@ -33,18 +34,34 @@ For this calibration I used the data of Experiment S455 in March 2021, Run 273, 
 Info: I always count from 0 to 15.
 
 \section{Alignment of the energy per Anode for each Section}
-For the Energy, you should first align all teh gain per anode by plotting for each section:\newline 
+For the Energy, you should first align all the gain per anode by plotting for each section:\newline 
 Eraw[anode i] vs Eraw[anode ref].\newline
 anode ref = the 5th anode\newline
 I plot these 2D histos only for events where the 16 anodes per section have seen an ion. (no specific tpat selection needed).
 \subsection{Computing}
 First run the program \dq small\textunderscore script\textunderscore hist.C\dq{} for all subruns. Then use \dq hadd\dq{} to add up the .root
 files. The combined .root file can then be used for the scrip called \dq retrieve\textunderscore fits\textunderscore hist.C \dq{}. This one makes nice canvases for the plots anode[i] vs anode\textunderscore ref and stores the fit parameters under 
-parameters\textunderscore twim\textunderscore anodes.csv.
+parameters\textunderscore twim\textunderscore anodes.csv.\\
+In this directory you find the parameters\textunderscore twim\textunderscore anodes.csv I retrieved from this first calibration step. The offset (=gain) should be near to 1.\newline
+\subsubsection{Design of parameters\textunderscore twim\textunderscore anodes.csv}
+It stores section(s), anodenr(i),slope,offset\newline
+$E\textunderscore sum\textunderscore ref*slope[i][s] + offset[i][s]$\newline
+To calibrate you have to do it the other way round:\newline
+$E\textunderscore cal\textunderscore anode[i][s] = E\textunderscore anode[i][s]/slope[i][s] -offset[i][s]/slope[i][s]$
+\section{Alignment of the energy per Section}
+\begin{itemize}
+	\item you should select event where the ions loss their energy in one section only
+	\item then you should select a limited range in ToF (100 ps range)
+	\item then you should calculate for each section Esum[s], the sum of the 16 anodes ( using $E\textunderscore cal\textunderscore anode[i][s]$ from the previous step). 
+	\item you should see a small shift between the four sections
+	\item correct from this shift by pol1
+	\item as result you get: $Eal\textunderscore step2final[s][a] = OffsetPerSection[s] + GainPerSection[s] * E\textunderscore cal\textunderscore anode[i][s]$
+\end{itemize}
+\subsection{Computing}
+Run the macro \dq twim\textunderscore sum\textunderscore energy.C\dq{} using all subruns as input parameter. As output you get a .root file with 1D histos with the summed TWIM energy for each section. Use this output .root file as input file for the macro \dq e\textunderscore sum\textunderscore cal.C\dq{}.This uses TSpectra etc. to (linearly) calibrate the E\textunderscore sum energy for all sections. The according fit parameters are stored in the parameter file \dq sum\textunderscore anodes\textunderscore parameters.csv\dq{}.\newline
+Now you can use the macro \dq twim\textunderscore final\textunderscore cal.C\dq{} (as input parameter the name of the subruns). This macro uses both parameter files \dq parameters\textunderscore twim\textunderscore anodes.csv (anode fit) and \dq sum\textunderscore anodes\textunderscore parameters.csv\dq{}(summed energy fit). Now E\textunderscore sum is calibrated.
 
 
-
-\section{Calibration of the sections}
 
 \section{Preparation of the MWPCs}
 
