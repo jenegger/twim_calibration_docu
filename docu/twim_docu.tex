@@ -79,15 +79,18 @@ For this calibration only selected FF combinations are used (no tpat selection:\
 \end{itemize}
 Important to mention, I only select events where each anode has exactly one value assigned, not more. All sections have a reference anode. The time for the anode is calculated:\newline
 t\textunderscore drift[s][a] = time[s][a] - time\textunderscore ref[s] \newline
-Plotting Xal versus drift time, the drift velocity on each anode can be extracted.\newline
+Plotting X versus drift time, the drift velocity on each anode can be extracted. X is the position of the ion in front of each anode, extrapolated from X data obtained with MW1 and MW2.\newline
 From this you retrieve Xcal for each anode of each section:\newline
-Xcal[s][a] = X\textunderscore OffsetPerAnodePerSection[s][a] + DV\textunderscore PerAnodePerSection[s][a]*DTraw[s][a] (where DV\textunderscore PerAnodePerSection is the drift velocity)
+Xal[s][a] = X\textunderscore OffsetPerAnodePerSection[s][a] + DV\textunderscore PerAnodePerSection[s][a]*DTraw[s][a] (where DV\textunderscore PerAnodePerSection is the drift velocity, the theoretical value should be $0.056  mm/ns $)
 
 \subsection{$\Delta$x correction}
-As next step the calibrated positions from all 16 anodes (Xcal[s][a]) for one section can be fitted for each event. For the fit I used anode 1-10 (see figure \ref{fig:anodes_pos_fit}).\newline 
+As next step the aligned positions from all 16 anodes (Xal[s][a]) for one section can be fitted for each event. For the fit I used anode 1-10 (see figure \ref{fig:anodes_pos_fit}).\newline 
 From this linear fit you get Xfit[s][a].\newline
-Then you plot DeltaX[s][a] = Xfit[s][a]-Xcal[s][a] versus Xcal[s][a].\newline
-Here you will see that it is not flat. This is normal because there are non-linearity due the cathode effect and attachment. I fit this using a TSpline. From this fit we can flaten the DeltaX vs Xcal plot and deduce the position resolution.
+Then you plot DeltaX[s][a] = Xfit[s][a]-Xal[s][a] versus Xal[s][a].\newline
+Here you will see that it is not flat. This is normal because there are non-linearity due the cathode effect and attachment. I fit this using a TSpline.\newline
+Xcal = Xal + TSpline(Xal)\newline
+After correction with this TSpline check that DeltaX = (Xfit - Xcal) versus Xcal is horizontal. The width of the projection of this 2D-plot on the Y axis will give you the position resolution per anode.
+I have something around 20 micrometer sigma.
 \begin{figure}[!htb]
   \includegraphics[width=\linewidth]{twim_fit_anodes.png}
 	\caption{Calibrated positions (green) vs. fit (red). The fit is done using anode 1-10.}
@@ -96,7 +99,7 @@ Here you will see that it is not flat. This is normal because there are non-line
 \subsection{Computing}
 Use the macro \dq drift\textunderscore analysis\textunderscore tref.C\dq{}. Form this you get the .root files. Use again \dq hadd\dq{} to combine all subruns. Then use retrieve\textunderscore drift\textunderscore fits.C. As input parameter use the comined .root file from the drift\textunderscore analysis\textunderscore tref.C output. The macro retrieve\textunderscore drift\textunderscore fits.C gives the parameters for the drift time calibration. \newline
 Design of the parameter file: section,anode,drift time, offset.\newline
-For the DeltaX vs Xcal computation the macro \dq delta\textunderscore x\textunderscore final.C\dq{} is used (I don't remember why I have also a macro called \dq delta\textunderscore x\textunderscoredrift.C\dq{}, it does not consider the multiwires).\newline
+For the DeltaX vs Xal computation the macro \dq delta\textunderscore x\textunderscore final.C\dq{} is used (I don't remember why I have also a macro called \dq delta\textunderscore x\textunderscore drift.C\dq{}, it does not consider the multiwires).\newline
 To get the final Tspline Fit and the arrangement I use the macro \dq retrieve\textunderscore tspline\textunderscore dt.C\dq{}. As input parameter I use again the combined .root output from the macro \dq delta\textunderscore x\textunderscore final.C\dq{}.\newline
 To get the position resolution of the TWIM Music anodes I use as input the output from the \dq retrieve\textunderscore tspline\textunderscore dt.C\dq{} macro. The resolution (sigma) is stored in the parameter file \dq xcal\textunderscore std\textunderscore dev\textunderscore params.csv\dq{}
 
