@@ -32,13 +32,25 @@ For this calibration I used the data of Experiment S455 in March 2021, Run 273, 
 	\item Alignment of the energy per Section
 	\item Drift time Calibration
 \end{enumerate}
-Info: I always count from 0 to 15.
+Info: I always count from 0 to 15.\newline
+The setup of TWIM Music:\newline
+\begin{enumerate}\addtocounter{enumi}{-1}
+	%	\setcounter{enumi}{0}
+	\item Messel Down
+	%	\setcounter{enumi}{1}
+	\item Messel Up
+	%	\setcounter{enumi}{2}
+	\item Wixhausen Up
+	%	\setcounter{enumi}{3}
+	\item Wixhausen Down
+\end{enumerate}
 
 \section{Alignment of the energy per Anode for each Section}
 For the Energy, you should first align all the gain per anode by plotting for each section:\newline 
 Eraw[anode i] vs Eraw[anode ref].\newline
 anode ref = the 5th anode\newline
-I plot these 2D histos only for events where the 16 anodes per section have seen an ion. (no specific tpat selection needed).
+I plot these 2D histos only for events where the 16 anodes per section have seen an ion. (no specific tpat selection needed).\newline
+Anode 13 in section 0 (left down) is screwed, as the the connection was not properly attached. For future calibrations this anode has to be skipped.
 \subsection{Computing}
 First run the program \dq small\textunderscore script\textunderscore hist.C\dq{} for all subruns. Then use \dq hadd\dq{} to add up the .root
 files. The combined .root file can then be used for the scrip called \dq retrieve\textunderscore fits\textunderscore hist.C \dq{}. This one makes nice canvases for the plots anode[i] vs anode\textunderscore ref and stores the fit parameters under 
