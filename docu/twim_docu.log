@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.3.13)  7 APR 2022 09:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.3.13)  7 APR 2022 12:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -501,10 +501,11 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 86.
 
-<twim_fit_anodes.png, id=58, 1626.075pt x 649.42625pt>
-File: twim_fit_anodes.png Graphic file (type png)
-<use twim_fit_anodes.png>
-Package pdftex.def Info: twim_fit_anodes.png  used on input line 95.
+<./../plots/twim_fit_anodes.png, id=58, 1626.075pt x 649.42625pt>
+File: ./../plots/twim_fit_anodes.png Graphic file (type png)
+<use ./../plots/twim_fit_anodes.png>
+Package pdftex.def Info: ./../plots/twim_fit_anodes.png  used on input line 95.
+
 (pdftex.def)             Requested size: 483.69684pt x 193.1745pt.
 
 Overfull \hbox (19.95795pt too wide) in paragraph at lines 100--105
@@ -518,7 +519,7 @@ Overfull \hbox (14.45709pt too wide) in paragraph at lines 100--105
  I use as in-put the out-put from the "re-trie-ve_tspline_dt.C"
  []
 
-[2 <./twim_fit_anodes.png>]
+[2 <./../plots/twim_fit_anodes.png>]
 
 Package caption Warning: Unused \captionsetup[sub] on input line 22.
 See the caption package documentation for explanation.
@@ -531,12 +532,16 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 110.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 110.
 Package rerunfilecheck Info: File `twim_docu.out' has not changed.
 (rerunfilecheck)             Checksum: CCA45A753AF3CE11AC1FAAEE10738A4A;514.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 110.
  ) 
 Here is how much of TeX's memory you used:
- 8186 strings out of 492982
- 123209 string characters out of 6134896
- 223358 words of memory out of 5000000
+ 8187 strings out of 492982
+ 123264 string characters out of 6134896
+ 223367 words of memory out of 5000000
  11646 multiletter control sequences out of 15000+600000
  14428 words of font info for 37 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -550,7 +555,7 @@ r/sfbx1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr
 /share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/t
 ype1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super
 /sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1728.pfb>
-Output written on twim_docu.pdf (4 pages, 193164 bytes).
+Output written on twim_docu.pdf (4 pages, 193151 bytes).
 PDF statistics:
  110 PDF objects out of 1000 (max. 8388607)
  91 compressed objects within 1 object stream
