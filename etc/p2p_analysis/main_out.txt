@@ -1,0 +1,144 @@
+Event with gamma from p2p:	3596
+p2p gamma energy:	0.294128
+Event with gamma from p2p:	3908
+p2p gamma energy:	2.00634
+Event with gamma from p2p:	26993
+p2p gamma energy:	3.12202
+Event with gamma from p2p:	66491
+p2p gamma energy:	5.42001
+Event with gamma from p2p:	94229
+p2p gamma energy:	4.59439
+Event with gamma from p2p:	94639
+p2p gamma energy:	10.0413
+Event with gamma from p2p:	102125
+p2p gamma energy:	0.249017
+Event with gamma from p2p:	129485
+p2p gamma energy:	4.47053
+Event with gamma from p2p:	133982
+p2p gamma energy:	2.30445
+Event with gamma from p2p:	138246
+p2p gamma energy:	3.2529
+Event with gamma from p2p:	173703
+p2p gamma energy:	8.06407
+Event with gamma from p2p:	173790
+p2p gamma energy:	6.73137
+Event with gamma from p2p:	207115
+p2p gamma energy:	1.72547
+Event with gamma from p2p:	241034
+p2p gamma energy:	1.87072
+Event with gamma from p2p:	300614
+p2p gamma energy:	6.54769
+Event with gamma from p2p:	308907
+p2p gamma energy:	0.731455
+Event with gamma from p2p:	323988
+p2p gamma energy:	7.6196
+Event with gamma from p2p:	324937
+p2p gamma energy:	1.0753
+Event with gamma from p2p:	344468
+p2p gamma energy:	2.03035
+Event with gamma from p2p:	350369
+p2p gamma energy:	2.39544
+Event with gamma from p2p:	352507
+p2p gamma energy:	0.630483
+Event with gamma from p2p:	356586
+p2p gamma energy:	3.31722
+Event with gamma from p2p:	379500
+p2p gamma energy:	0.874772
+Event with gamma from p2p:	383156
+p2p gamma energy:	2.06599
+Event with gamma from p2p:	387031
+p2p gamma energy:	0.129627
+Event with gamma from p2p:	387886
+p2p gamma energy:	1.9505
+Event with gamma from p2p:	400429
+p2p gamma energy:	4.98066
+Event with gamma from p2p:	416125
+p2p gamma energy:	1.6764
+Event with gamma from p2p:	417009
+p2p gamma energy:	0.454018
+Event with gamma from p2p:	455967
+p2p gamma energy:	6.27233
+Event with gamma from p2p:	468238
+p2p gamma energy:	3.80341
+Event with gamma from p2p:	475552
+p2p gamma energy:	2.86904
+Event with gamma from p2p:	476733
+p2p gamma energy:	1.38486
+Event with gamma from p2p:	480218
+p2p gamma energy:	4.30631
+Event with gamma from p2p:	489378
+p2p gamma energy:	1.60721
+Event with gamma from p2p:	495804
+p2p gamma energy:	6.02642
+Event with gamma from p2p:	530243
+p2p gamma energy:	0.230663
+Event with gamma from p2p:	532956
+p2p gamma energy:	3.51652
+Event with gamma from p2p:	545972
+p2p gamma energy:	2.08052
+Event with gamma from p2p:	550093
+p2p gamma energy:	5.64378
+Event with gamma from p2p:	552687
+p2p gamma energy:	6.15095
+Event with gamma from p2p:	556866
+p2p gamma energy:	2.11883
+Event with gamma from p2p:	584414
+p2p gamma energy:	4.62229
+Event with gamma from p2p:	587885
+p2p gamma energy:	3.36677
+Event with gamma from p2p:	603847
+p2p gamma energy:	0.220466
+Event with gamma from p2p:	605828
+p2p gamma energy:	0.620556
+Event with gamma from p2p:	608218
+p2p gamma energy:	2.13626
+Event with gamma from p2p:	648513
+p2p gamma energy:	4.05264
+Event with gamma from p2p:	675984
+p2p gamma energy:	3.78163
+Event with gamma from p2p:	686709
+p2p gamma energy:	4.92796
+Event with gamma from p2p:	689162
+p2p gamma energy:	3.29121
+Event with gamma from p2p:	694655
+p2p gamma energy:	1.42493
+Event with gamma from p2p:	740757
+p2p gamma energy:	1.34894
+Event with gamma from p2p:	743238
+p2p gamma energy:	1.56897
+Event with gamma from p2p:	749840
+p2p gamma energy:	1.6696
+Event with gamma from p2p:	754178
+p2p gamma energy:	1.91063
+Event with gamma from p2p:	757118
+p2p gamma energy:	8.85566
+Event with gamma from p2p:	786874
+p2p gamma energy:	1.4105
+Event with gamma from p2p:	793918
+p2p gamma energy:	4.52192
+Event with gamma from p2p:	811073
+p2p gamma energy:	1.17267
+Event with gamma from p2p:	815929
+p2p gamma energy:	0.559642
+Event with gamma from p2p:	818352
+p2p gamma energy:	1.14114
+Event with gamma from p2p:	820799
+p2p gamma energy:	4.13009
+Event with gamma from p2p:	829721
+p2p gamma energy:	9.1523
+Event with gamma from p2p:	848167
+p2p gamma energy:	1.67902
+Event with gamma from p2p:	850699
+p2p gamma energy:	1.16305
+Event with gamma from p2p:	874824
+p2p gamma energy:	6.89625
+Event with gamma from p2p:	882050
+p2p gamma energy:	3.60772
+Event with gamma from p2p:	883760
+p2p gamma energy:	5.20621
+Event with gamma from p2p:	924511
+p2p gamma energy:	4.90527
+Event with gamma from p2p:	951429
+p2p gamma energy:	4.53568
+Event with gamma from p2p:	955166
+p2p gamma energy:	0.219955
