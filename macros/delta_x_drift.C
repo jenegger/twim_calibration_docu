@@ -30,8 +30,8 @@ Long64_t entries_twim = 0;
 Long64_t entries_mw1 = 0;
 Long64_t entries_mw2 = 0;
 
-string fname = string("/scratch8/ge37liw/workingspace/exp_s455/data/unpacked/s455_03_273_") + input_str + string("_unpacked.root");
-string cal_fname = string("/scratch8/ge37liw/workingspace/exp_s455/data/calibrated/with_mw1/s455_03_273_") + input_str + string("_calibrated.root");
+string fname = string("/scratch5/ge37liw/unpacked_newroot_04_2022/s455_03_273_") + input_str + string("_unpacked.root");
+string cal_fname = string("/scratch5/ge37liw/calibrated_rand_angles/s455_03_273_") + input_str + string("_calibrated.root");
 const char* char_fname= fname.c_str();
 const char* char_cal_fname = cal_fname.c_str();
 TChain* chain = new TChain("evt");
@@ -104,15 +104,15 @@ R3BEventHeader* DataCA = new R3BEventHeader();
 TBranch* branchData = chain->GetBranch("EventHeader.");
 branchData->SetAddress(&DataCA);
 
-TClonesArray* SofTwimMappedData = new TClonesArray("R3BSofTwimMappedData",2);
-R3BSofTwimHitData** softwimmappeddata;
+TClonesArray* SofTwimMappedData = new TClonesArray("R3BTwimMappedData",2);
+R3BTwimHitData** softwimmappeddata;
 TBranch *branchSofTwimMappedData = chain->GetBranch("TwimMappedData");
 branchSofTwimMappedData->SetAddress(&SofTwimMappedData);
 
 
 //parameters for the raw anode energy
 fstream fin;
-fin.open("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration/parameters_twim_anodes.csv", ios::in); 
+fin.open("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/parameters/parameters_twim_anodes.csv", ios::in); 
 string line, word;
 vector<vector<vector<double> > > v_para_twim(4,vector<vector<double> >(16, vector<double>(2)));
 getline(fin, line);
@@ -155,7 +155,7 @@ for(Long64_t i=0;i < nevents;i++){
 	int trigger_pattern = t_pattern(DataCA);
 //	if (entries_twim > 1 && (trigger_pattern == 2 || trigger_pattern == 4 || trigger_pattern == 8 || trigger_pattern ==10)){
 if (entries_twim > 1 && trigger_pattern > 1){
-		R3BSofTwimMappedData** softwimmappeddata  = new R3BSofTwimMappedData*[entries_twim];
+		R3BTwimMappedData** softwimmappeddata  = new R3BTwimMappedData*[entries_twim];
 		
 
 		
@@ -184,9 +184,9 @@ if (entries_twim > 1 && trigger_pattern > 1){
 	
 		//fill the 4 arrays
 	for (Int_t j = 0; j < entries_twim; j++){
-		softwimmappeddata[j] = (R3BSofTwimMappedData*)SofTwimMappedData->At(j);
-		Int_t twim_section = softwimmappeddata[j]->GetSecID();
-		Int_t twim_anode = softwimmappeddata[j]->GetAnodeID();
+		softwimmappeddata[j] = (R3BTwimMappedData*)SofTwimMappedData->At(j);
+		Int_t twim_section = (softwimmappeddata[j]->GetSecID())-1;
+		Int_t twim_anode = (softwimmappeddata[j]->GetAnodeID())-1;
 
 		if (twim_section == 0 && twim_anode < 16){
 			sec_0_arr[twim_anode] = softwimmappeddata[j]->GetEnergy();
@@ -507,7 +507,7 @@ if (entries_twim > 1 && trigger_pattern > 1){
 	}
 }
 char f_out_name[500];
-sprintf(f_out_name,"deltax_xal_drift_plots_subrun_%s.root",input_str.c_str());
+sprintf(f_out_name,"/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_delta_x_drift/deltax_xal_drift_plots_subrun_%s.root",input_str.c_str());
 TFile * f = new TFile(f_out_name,"RECREATE");
 TList *l = new TList();
 for (Int_t i = 0; i < 16; i++){

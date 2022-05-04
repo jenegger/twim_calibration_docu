@@ -20,7 +20,7 @@ struct tm * timeinfo;
 time(rawtime);
 timeinfo = localtime(rawtime);
 ofstream par_file;
-par_file.open("sum_anodes_parameters.csv");
+par_file.open("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/parameters/sum_anodes_parameters.csv");
 par_file << "#FILE created by e_sum_cal.C at time:" << timeinfo->tm_hour << ":" << timeinfo->tm_min << "Date:\t" << timeinfo->tm_mday << "/" << timeinfo->tm_mon << "/" << timeinfo->tm_year << endl;
 
 TFile* file_input(TFile::Open(char_fname ,"READ"));

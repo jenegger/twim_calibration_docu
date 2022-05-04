@@ -17,8 +17,8 @@ using namespace std;
 void twim_sum_energy(const string& input_str){
 
 Long64_t entries_twim = 0;
-string fname = string("/scratch8/ge37liw/workingspace/exp_s455/data/unpacked/s455_03_273_") + input_str + string("_unpacked.root");
-string cal_fname = string("/scratch8/ge37liw/workingspace/exp_s455/data/calibrated/s455_03_273_") + input_str + string("_calibrated.root");
+string fname = string("/scratch5/ge37liw/unpacked_newroot_04_2022/s455_03_273_") + input_str + string("_unpacked.root");
+string cal_fname = string("/scratch5/ge37liw/calibrated_rand_angles/s455_03_273_") + input_str + string("_calibrated.root");
 const char* char_fname= fname.c_str();
 const char* char_cal_fname = cal_fname.c_str();
 TChain* chain = new TChain("evt");
@@ -195,8 +195,8 @@ R3BEventHeader* DataCA = new R3BEventHeader();
 TBranch* branchData = chain->GetBranch("EventHeader.");
 branchData->SetAddress(&DataCA);
 
-TClonesArray* SofTwimMappedData = new TClonesArray("R3BSofTwimMappedData",2);
-R3BSofTwimHitData** softwimmappeddata;
+TClonesArray* SofTwimMappedData = new TClonesArray("R3BTwimMappedData",2);
+R3BTwimHitData** softwimmappeddata;
 TBranch *branchSofTwimMappedData = chain->GetBranch("TwimMappedData");
 branchSofTwimMappedData->SetAddress(&SofTwimMappedData);
 
@@ -212,7 +212,7 @@ branchSofToFWHitData->SetAddress(&SofToFWHitData);
 
 
 fstream fin;
-fin.open("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration/parameters_twim_anodes.csv", ios::in); //FIXME: use right file...
+fin.open("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/parameters/parameters_twim_anodes.csv", ios::in); //FIXME: use right file...
 string line, word;
 vector<vector<vector<double> > > v_para_twim(4,vector<vector<double> >(16, vector<double>(2)));
 getline(fin, line);
@@ -238,7 +238,7 @@ for(Long64_t i=0;i< nevents;i++){
 		//cout << "this is event with more than one TWIM entry:\t" << evtnr << endl;
 		//cout << "corresponding entries:\t" << entries_twim << endl;
 		
-		R3BSofTwimMappedData** softwimmappeddata  = new R3BSofTwimMappedData*[entries_twim];
+		R3BTwimMappedData** softwimmappeddata  = new R3BTwimMappedData*[entries_twim];
 	
 		//create 4 arrays with 0 as entry (= 4 sections)
 		double sec_0_arr[16] = { 0.};
@@ -253,9 +253,9 @@ for(Long64_t i=0;i< nevents;i++){
 		
 		//fill the 4 arrays
 		for (Int_t j = 0; j < entries_twim; j++){
-			softwimmappeddata[j] = (R3BSofTwimMappedData*)SofTwimMappedData->At(j);
-			Int_t twim_section = softwimmappeddata[j]->GetSecID();
-			Int_t twim_anode = softwimmappeddata[j]->GetAnodeID();
+			softwimmappeddata[j] = (R3BTwimMappedData*)SofTwimMappedData->At(j);
+			Int_t twim_section = (softwimmappeddata[j]->GetSecID())-1;
+			Int_t twim_anode = (softwimmappeddata[j]->GetAnodeID())-1;
 	
 			if (twim_section == 0 && twim_anode < 16){
 				sec_0_arr[twim_anode] = softwimmappeddata[j]->GetEnergy();
@@ -329,7 +329,7 @@ for(Long64_t i=0;i< nevents;i++){
 				Double_t right_time; //Wixhausen
 				Double_t left_y;
 				Double_t right_y;
-				cout << v_tof_times[0] << "   " << v_tof_times[1] << endl;
+				//cout << v_tof_times[0] << "   " << v_tof_times[1] << endl;
 				if (v_tof_x[0] < v_tof_x[1]){
 					right_time = v_tof_times[0];
 					left_y = v_tof_y[0];
@@ -459,6 +459,7 @@ for(Long64_t i=0;i< nevents;i++){
 					}
 				if (left_time > 35.2 && left_time < 38 && right_time > 35.2 && right_time < 38){
 					//now fill histos with sum energy vs time and the 1D histo for the energy					
+					cout << "right and left time" << left_time << "\t" << right_time << "\t" <<e_sum_sec_1/16. << endl;
 					h2_e_sum_tof_sec1->Fill(left_time,e_sum_sec_1/16.);	
 					h2_e_sum_tof_sec2->Fill(right_time,e_sum_sec_2/16.);
 					}
@@ -533,7 +534,7 @@ for(Long64_t i=0;i< nevents;i++){
 
 	}
 char f_out_name[500];
-sprintf(f_out_name,"test_esum_plots_subrun_%s.root",input_str.c_str());
+sprintf(f_out_name,"/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_twim_sum_energy/esum_plots_subrun_%s.root",input_str.c_str());
 TFile * f = new TFile(f_out_name,"RECREATE");
 TList *l = new TList();
 l->Add(h2_e_sum_tof_sec0);

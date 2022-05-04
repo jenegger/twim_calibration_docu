@@ -64,7 +64,7 @@ h2_twim_sec3_energy_anode[i]->GetYaxis()->SetTitleSize(0.045);
 }
 
 Long64_t entries_califa = 0;
-string fname = string("/scratch8/ge37liw/workingspace/exp_s455/data/unpacked/s455_03_273_") + input_str + string("_unpacked.root");
+string fname = string("/scratch5/ge37liw/unpacked_newroot_04_2022/s455_03_273_") + input_str + string("_unpacked.root");
 const char* char_fname= fname.c_str();
 TChain* chain = new TChain("evt");
 chain->Reset();
@@ -76,8 +76,8 @@ R3BEventHeader* DataCA = new R3BEventHeader();
 TBranch* branchData = chain->GetBranch("EventHeader.");
 branchData->SetAddress(&DataCA);
 
-TClonesArray* SofTwimMappedData = new TClonesArray("R3BSofTwimMappedData",2);
-R3BSofTwimHitData** softwimmappeddata;
+TClonesArray* SofTwimMappedData = new TClonesArray("R3BTwimMappedData",2);
+R3BTwimHitData** softwimmappeddata;
 TBranch *branchSofTwimMappedData = chain->GetBranch("TwimMappedData");
 branchSofTwimMappedData->SetAddress(&SofTwimMappedData);
 
@@ -91,7 +91,7 @@ for(Long64_t i = 0; i < nevents; i++){
 //	if (entries_twim > 0){
 //		cout << "entries of twim:\t " << entries_twim << "  for eventnr:\t" << evtnr << endl;
 //	}
-	R3BSofTwimMappedData** softwimmappeddata  = new R3BSofTwimMappedData*[entries_twim];
+	R3BTwimMappedData** softwimmappeddata  = new R3BTwimMappedData*[entries_twim];
 
 	//create 4 arrays with 0 as entry (= 4 sections)
 	double sec_0_arr[16] = { 0.};
@@ -101,21 +101,21 @@ for(Long64_t i = 0; i < nevents; i++){
 	
 	//fill the 4 arrays
 	for (Int_t j = 0; j < entries_twim; j++){
-		softwimmappeddata[j] = (R3BSofTwimMappedData*)SofTwimMappedData->At(j);
+		softwimmappeddata[j] = (R3BTwimMappedData*)SofTwimMappedData->At(j);
 		Int_t twim_section = softwimmappeddata[j]->GetSecID();
 		Int_t twim_anode = softwimmappeddata[j]->GetAnodeID();
-
-		if (twim_section == 0 && twim_anode < 16){
-			sec_0_arr[twim_anode] = softwimmappeddata[j]->GetEnergy();
+			
+		if (twim_section == 1 && twim_anode <= 16){
+			sec_0_arr[twim_anode-1] = softwimmappeddata[j]->GetEnergy();
 			}
-		else if (twim_section == 1 && twim_anode < 16){
-			sec_1_arr[twim_anode] = softwimmappeddata[j]->GetEnergy();
+		else if (twim_section == 2 && twim_anode <= 16){
+			sec_1_arr[twim_anode-1] = softwimmappeddata[j]->GetEnergy();
 			}
-		else if (twim_section == 2 && twim_anode < 16){
-			sec_2_arr[twim_anode] = softwimmappeddata[j]->GetEnergy();
+		else if (twim_section == 3 && twim_anode <= 16){
+			sec_2_arr[twim_anode-1] = softwimmappeddata[j]->GetEnergy();
 			}
-		else if (twim_section == 3 && twim_anode < 16){
-			sec_3_arr[twim_anode] = softwimmappeddata[j]->GetEnergy();
+		else if (twim_section == 4 && twim_anode <= 16){
+			sec_3_arr[twim_anode-1] = softwimmappeddata[j]->GetEnergy();
 			}		
 //		else {
 //			cout << "WARNING, no TWIM Section selected!" <<  "for eventnr:\t" << evtnr << endl;
@@ -131,7 +131,6 @@ for(Long64_t i = 0; i < nevents; i++){
 	Double_t min_sec1 = sec_1_arr[0];
 	Double_t min_sec2 = sec_2_arr[0];
 	Double_t min_sec3 = sec_3_arr[0];		
-
 	for (Int_t j = 1; j < 16; j++){
 		if (sec_0_arr[j] < min_sec0){
 			min_sec0 = sec_0_arr[j];
@@ -147,7 +146,6 @@ for(Long64_t i = 0; i < nevents; i++){
 			}
 		
 		}
-		
 	if (min_sec0 > 1){
 		for (Int_t j = 0; j < 16;j++){
 			h2_twim_sec0_energy_anode[j]->Fill(sec_0_arr[5],sec_0_arr[j]);				
@@ -174,7 +172,7 @@ for(Long64_t i = 0; i < nevents; i++){
 }
 
 char f_out_name[500];
-sprintf(f_out_name,"section_plots_subrun_%s.root",input_str.c_str());
+sprintf(f_out_name,"/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_small_script_hist/section_plots_subrun_%s.root",input_str.c_str());
 TFile * f = new TFile(f_out_name,"RECREATE");
 //fill histos in TList
 TList *l = new TList();

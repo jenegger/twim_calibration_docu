@@ -133,7 +133,7 @@ struct tm * timeinfo;
 time(rawtime);
 timeinfo = localtime(rawtime);
 ofstream par_file;
-par_file.open("xal_vs_dt_params.csv");
+par_file.open("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/parameters/xal_vs_dt_params.csv");
 
 par_file << "#FILE created by retrieve_drift_fits.C at time:" << timeinfo->tm_hour << ":" << timeinfo->tm_min << "Date:\t" << timeinfo->tm_mday << "/" << timeinfo->tm_mon << "/" << timeinfo->tm_year << endl;
 TFile* file_input(TFile::Open(char_fname ,"READ"));
@@ -187,7 +187,7 @@ for (Int_t i = 0; i < 16; i++){
 }
 sec0_c.Modified();
 sec0_c.Update();
-sec0_c.Print("section_0_drift_fit.pdf");
+sec0_c.Print("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_retrieve_drift_fits/section_0_drift_fit.pdf");
 sec0_c.Write();
 
 //section 1
@@ -233,7 +233,7 @@ for (Int_t i = 0; i < 16; i++){
 }
 sec1_c.Modified();
 sec1_c.Update();
-sec1_c.Print("section_1_drift_fit.pdf");
+sec1_c.Print("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_retrieve_drift_fits/section_1_drift_fit.pdf");
 sec1_c.Write();
 
 
@@ -280,7 +280,7 @@ for (Int_t i = 0; i < 16; i++){
 }
 sec2_c.Modified();
 sec2_c.Update();
-sec2_c.Print("section_2_drift_fit.pdf");
+sec2_c.Print("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_retrieve_drift_fits/section_2_drift_fit.pdf");
 sec2_c.Write();
 
 
@@ -327,7 +327,7 @@ for (Int_t i = 0; i < 16; i++){
 }
 sec3_c.Modified();
 sec3_c.Update();
-sec3_c.Print("section_3_drift_fit.pdf");
+sec3_c.Print("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_retrieve_drift_fits/section_3_drift_fit.pdf");
 sec3_c.Write();
 
 par_file.close();

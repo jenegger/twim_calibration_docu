@@ -40,8 +40,8 @@ Long64_t entries_twim = 0;
 Long64_t entries_mw1 = 0;
 Long64_t entries_mw2 = 0;
 
-string fname = string("/scratch8/ge37liw/workingspace/exp_s455/data/unpacked/s455_03_273_") + input_str + string("_unpacked.root");
-string cal_fname = string("/scratch8/ge37liw/workingspace/exp_s455/data/calibrated/with_mw1/s455_03_273_") + input_str + string("_calibrated.root");
+string fname = string("/scratch5/ge37liw/unpacked_newroot_04_2022/s455_03_273_") + input_str + string("_unpacked.root");
+string cal_fname = string("/scratch5/ge37liw/calibrated_rand_angles/s455_03_273_") + input_str + string("_calibrated.root");
 const char* char_fname= fname.c_str();
 const char* char_cal_fname = cal_fname.c_str();
 TChain* chain = new TChain("evt");
@@ -118,25 +118,25 @@ R3BEventHeader* DataCA = new R3BEventHeader();
 TBranch* branchData = chain->GetBranch("EventHeader.");
 branchData->SetAddress(&DataCA);
 
-TClonesArray* SofTwimMappedData = new TClonesArray("R3BSofTwimMappedData",1);
-R3BSofTwimHitData** softwimmappeddata;
+TClonesArray* SofTwimMappedData = new TClonesArray("R3BTwimMappedData",1);
+R3BTwimHitData** softwimmappeddata;
 TBranch *branchSofTwimMappedData = chain->GetBranch("TwimMappedData");
 branchSofTwimMappedData->SetAddress(&SofTwimMappedData);
 
-TClonesArray* SofMwpc1CalData = new TClonesArray("R3BSofMwpcCalData",5);
-R3BSofMwpcCalData** sofmwpc1caldata;
+TClonesArray* SofMwpc1CalData = new TClonesArray("R3BMwpcCalData",5);
+R3BMwpcCalData** sofmwpc1caldata;
 TBranch *branchSofMwpc1CalData = chain->GetBranch("Mwpc1CalData");
 branchSofMwpc1CalData->SetAddress(&SofMwpc1CalData);
 
-TClonesArray* SofMwpc2CalData = new TClonesArray("R3BSofMwpcCalData",5);
-R3BSofMwpcCalData** sofmwpc2caldata;
+TClonesArray* SofMwpc2CalData = new TClonesArray("R3BMwpcCalData",5);
+R3BMwpcCalData** sofmwpc2caldata;
 TBranch *branchSofMwpc2CalData = chain->GetBranch("Mwpc2CalData");
 branchSofMwpc2CalData->SetAddress(&SofMwpc2CalData);
 
 
 //parameters for the raw anode energy
 fstream fin;
-fin.open("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration/parameters_twim_anodes.csv", ios::in); 
+fin.open("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/parameters/parameters_twim_anodes.csv", ios::in); 
 string line, word;
 vector<vector<vector<double> > > v_para_twim(4,vector<vector<double> >(16, vector<double>(2)));
 getline(fin, line);
@@ -152,7 +152,7 @@ while(fin.peek()!=EOF) {
 }
 //parameters_for the sum_section energies
 fstream fin2;
-fin2.open("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration/sum_anodes_parameters.csv", ios::in); 
+fin2.open("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/parameters/sum_anodes_parameters.csv", ios::in); 
 string line2, word2;
 vector<vector<double> > v_para_twim_sum;
 getline(fin2, line2);
@@ -180,9 +180,9 @@ for(Long64_t i=0;i < nevents;i++){
 		////cout << "this is event with more than one TWIM entry:\t" << evtnr << endl;
 		//cout << "corresponding entries:\t" << entries_twim << endl;
 		
-		R3BSofTwimMappedData** softwimmappeddata  = new R3BSofTwimMappedData*[entries_twim];
-		R3BSofMwpcCalData** sofmwpc1caldata = new R3BSofMwpcCalData*[entries_mw1];
-		R3BSofMwpcCalData** sofmwpc2caldata = new R3BSofMwpcCalData*[entries_mw2];
+		R3BTwimMappedData** softwimmappeddata  = new R3BTwimMappedData*[entries_twim];
+		R3BMwpcCalData** sofmwpc1caldata = new R3BMwpcCalData*[entries_mw1];
+		R3BMwpcCalData** sofmwpc2caldata = new R3BMwpcCalData*[entries_mw2];
 
 		//create 4 arrays with 0 as entry (= 4 sections)
 		double sec_0_arr[16] = { 0.};
@@ -212,9 +212,9 @@ for(Long64_t i=0;i < nevents;i++){
 
 		//fill the 4 arrays
 		for (Int_t j = 0; j < entries_twim; j++){
-			softwimmappeddata[j] = (R3BSofTwimMappedData*)SofTwimMappedData->At(j);
-			Int_t twim_section = softwimmappeddata[j]->GetSecID();
-			Int_t twim_anode = softwimmappeddata[j]->GetAnodeID();
+			softwimmappeddata[j] = (R3BTwimMappedData*)SofTwimMappedData->At(j);
+			Int_t twim_section = (softwimmappeddata[j]->GetSecID())-1;
+			Int_t twim_anode = (softwimmappeddata[j]->GetAnodeID())-1;
 			if (twim_section == 0 && twim_anode < 16){
 				if (sec_0_arr[twim_anode] != 0){
 					single_filled_anodes = false;
@@ -323,7 +323,7 @@ for(Long64_t i=0;i < nevents;i++){
 		vector<double> vec_Y_mw2(40,0); //-> 40 horizontal pads
 		
 		for (Int_t i = 0; i < entries_mw1; i++){
-			sofmwpc1caldata[i] = (R3BSofMwpcCalData*)SofMwpc1CalData->At(i);
+			sofmwpc1caldata[i] = (R3BMwpcCalData*)SofMwpc1CalData->At(i);
 			Int_t planeId = sofmwpc1caldata[i]->GetPlane();
 			Int_t padId = sofmwpc1caldata[i]->GetPad()-1;
 			Double_t charge = sofmwpc1caldata[i]->GetQ();
@@ -340,7 +340,7 @@ for(Long64_t i=0;i < nevents;i++){
 				}
 			}
 		for (Int_t i = 0; i < entries_mw2; i++){
-			sofmwpc2caldata[i] = (R3BSofMwpcCalData*)SofMwpc2CalData->At(i);
+			sofmwpc2caldata[i] = (R3BMwpcCalData*)SofMwpc2CalData->At(i);
 			Int_t planeId = sofmwpc2caldata[i]->GetPlane();
 			Int_t padId = sofmwpc2caldata[i]->GetPad()-1;
 			Double_t charge = sofmwpc2caldata[i]->GetQ();
@@ -828,7 +828,7 @@ for(Long64_t i=0;i < nevents;i++){
 		}
 	}
 char f_out_name[500];
-sprintf(f_out_name,"tref_analysis_subrun_%s.root",input_str.c_str());
+sprintf(f_out_name,"/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_drift_analysis_tref/tref_analysis_subrun_%s.root",input_str.c_str());
 TFile * f = new TFile(f_out_name,"RECREATE");
 TList *l = new TList();
 for (Int_t i = 0; i < 16; i++){

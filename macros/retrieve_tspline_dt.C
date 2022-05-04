@@ -37,7 +37,7 @@ struct tm * timeinfo;
 time(rawtime);
 timeinfo = localtime(rawtime);
 ofstream par_file;
-par_file.open("xcal_std_dev_params.csv");
+par_file.open("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/parameters/xcal_std_dev_params.csv");
 
 par_file << "#FILE created by retrieve_tspline_dt.C at time:" << timeinfo->tm_hour << ":" << timeinfo->tm_min << "Date:\t" << timeinfo->tm_mday << "/" << timeinfo->tm_mon << "/" << timeinfo->tm_year << endl;
 TFile* file_input(TFile::Open(char_fname ,"READ"));
@@ -147,7 +147,8 @@ h2_delta_x_vs_xcal_sec3[i]->GetYaxis()->SetLabelSize(0.045);
 h2_delta_x_vs_xcal_sec3[i]->GetYaxis()->SetTitleSize(0.045);
 }
 char f_out_name[500];
-sprintf(f_out_name,"foobar_jentob.root");
+char f_splines[500];
+sprintf(f_out_name,"/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_retrieve_tspline_dt/retrieve_tspline_result.root");
 TFile * f = new TFile(f_out_name,"RECREATE");
 //
 //TCutG *gcut1 = new TCutG("gcut1",7);
@@ -184,11 +185,13 @@ for (Int_t i = 0; i < 16; i++){
 		}
 	h2_deltax_vs_xal_sec0[i]->Draw("colz");
 	splines_sec0->Draw("same");
+	sprintf(f_splines,"/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/parameters/spline_sec_0_anode_%i.xml",i);	
+	splines_sec0->SaveAs(f_splines);
 
 }
 sec0_c.Modified();
 sec0_c.Update();
-sec0_c.Print("deltax_vs_al_sec0.pdf");
+sec0_c.Print("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_retrieve_tspline_dt/deltax_vs_al_sec0.pdf");
 sec0_c.Write();
 
 TCanvas tspline_corr_sec0_c("tspline_corr_sec0_c","Section0: Xfit -Xcal vs Xcal ");
@@ -204,7 +207,7 @@ for (Int_t i = 0; i < 16; i++){
 	}
 tspline_corr_sec0_c.Modified();
 tspline_corr_sec0_c.Update();
-tspline_corr_sec0_c.Print("deltax_vs_xcal_sec0.pdf");
+tspline_corr_sec0_c.Print("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_retrieve_tspline_dt/deltax_vs_xcal_sec0.pdf");
 tspline_corr_sec0_c.Write();
 
 TCanvas resolution_sec0("resolution_sec0","Section0:Projection Deltax with gauss fit");
@@ -220,7 +223,7 @@ for (Int_t i = 0; i < 16; i++){
 	}
 resolution_sec0.Modified();
 resolution_sec0.Update();
-resolution_sec0.Print("resolution_sec0.pdf");
+resolution_sec0.Print("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_retrieve_tspline_dt/resolution_sec0.pdf");
 resolution_sec0.Write();
 
 
@@ -257,11 +260,13 @@ for (Int_t i = 0; i < 16; i++){
 		}
 	h2_deltax_vs_xal_sec1[i]->Draw("colz");
 	splines_sec1->Draw("same");
+	sprintf(f_splines,"/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/parameters/spline_sec_1_anode_%i.root",i);	
+	splines_sec1->SaveAs(f_splines);
 
 }
 sec1_c.Modified();
 sec1_c.Update();
-sec1_c.Print("deltax_vs_al_sec1.pdf");
+sec1_c.Print("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_retrieve_tspline_dt/deltax_vs_al_sec1.pdf");
 sec1_c.Write();
 
 TCanvas tspline_corr_sec1_c("tspline_corr_sec1_c","Section1: Xfit -Xcal vs Xcal ");
@@ -277,7 +282,7 @@ for (Int_t i = 0; i < 16; i++){
 	}
 tspline_corr_sec1_c.Modified();
 tspline_corr_sec1_c.Update();
-tspline_corr_sec1_c.Print("deltax_vs_xcal_sec1.pdf");
+tspline_corr_sec1_c.Print("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_retrieve_tspline_dt/deltax_vs_xcal_sec1.pdf");
 tspline_corr_sec1_c.Write();
 
 TCanvas resolution_sec1("resolution_sec1","Section1:Projection Deltax with gauss fit");
@@ -293,7 +298,7 @@ for (Int_t i = 0; i < 16; i++){
 	}
 resolution_sec1.Modified();
 resolution_sec1.Update();
-resolution_sec1.Print("resolution_sec1.pdf");
+resolution_sec1.Print("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_retrieve_tspline_dt/resolution_sec1.pdf");
 resolution_sec1.Write();
 
 
@@ -329,11 +334,13 @@ for (Int_t i = 0; i < 16; i++){
 		}
 	h2_deltax_vs_xal_sec2[i]->Draw("colz");
 	splines_sec2->Draw("same");
+	sprintf(f_splines,"/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/parameters/spline_sec_2_anode_%i.root",i);	
+	splines_sec2->SaveAs(f_splines);
 
 }
 sec2_c.Modified();
 sec2_c.Update();
-sec2_c.Print("deltax_vs_al_sec2.pdf");
+sec2_c.Print("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_retrieve_tspline_dt/deltax_vs_al_sec2.pdf");
 sec2_c.Write();
 
 TCanvas tspline_corr_sec2_c("tspline_corr_sec2_c","Section2: Xfit -Xcal vs Xcal ");
@@ -349,7 +356,7 @@ for (Int_t i = 0; i < 16; i++){
 	}
 tspline_corr_sec2_c.Modified();
 tspline_corr_sec2_c.Update();
-tspline_corr_sec2_c.Print("deltax_vs_xcal_sec2.pdf");
+tspline_corr_sec2_c.Print("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_retrieve_tspline_dt/deltax_vs_xcal_sec2.pdf");
 tspline_corr_sec2_c.Write();
 
 TCanvas resolution_sec2("resolution_sec2","Section2:Projection Deltax with gauss fit");
@@ -365,7 +372,7 @@ for (Int_t i = 0; i < 16; i++){
 	}
 resolution_sec2.Modified();
 resolution_sec2.Update();
-resolution_sec2.Print("resolution_sec2.pdf");
+resolution_sec2.Print("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_retrieve_tspline_dt/resolution_sec2.pdf");
 resolution_sec2.Write();
 
 
@@ -402,11 +409,13 @@ for (Int_t i = 0; i < 16; i++){
 		}
 	h2_deltax_vs_xal_sec3[i]->Draw("colz");
 	splines_sec3->Draw("same");
+	sprintf(f_splines,"/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/parameters/spline_sec_3_anode_%i.root",i);	
+	splines_sec3->SaveAs(f_splines);
 
 }
 sec3_c.Modified();
 sec3_c.Update();
-sec3_c.Print("deltax_vs_al_sec3.pdf");
+sec3_c.Print("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_retrieve_tspline_dt/deltax_vs_al_sec3.pdf");
 sec3_c.Write();
 
 TCanvas tspline_corr_sec3_c("tspline_corr_sec3_c","Section3: Xfit -Xcal vs Xcal ");
@@ -422,7 +431,7 @@ for (Int_t i = 0; i < 16; i++){
 	}
 tspline_corr_sec3_c.Modified();
 tspline_corr_sec3_c.Update();
-tspline_corr_sec3_c.Print("deltax_vs_xcal_sec3.pdf");
+tspline_corr_sec3_c.Print("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_retrieve_tspline_dt/deltax_vs_xcal_sec3.pdf");
 tspline_corr_sec3_c.Write();
 
 TCanvas resolution_sec3("resolution_sec3","Section3:Projection Deltax with gauss fit");
@@ -438,7 +447,7 @@ for (Int_t i = 0; i < 16; i++){
 	}
 resolution_sec3.Modified();
 resolution_sec3.Update();
-resolution_sec3.Print("resolution_sec3.pdf");
+resolution_sec3.Print("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_retrieve_tspline_dt/resolution_sec3.pdf");
 resolution_sec3.Write();
 
 TList *l = new TList();
