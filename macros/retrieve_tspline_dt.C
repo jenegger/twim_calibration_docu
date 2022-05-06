@@ -29,6 +29,10 @@ TH1D* h1_deltax_y_proj_sec0[16];
 TH1D* h1_deltax_y_proj_sec1[16];
 TH1D* h1_deltax_y_proj_sec2[16];
 TH1D* h1_deltax_y_proj_sec3[16];
+TSpline3* spline_sec0[16];
+TSpline3* spline_sec1[16];
+TSpline3* spline_sec2[16];
+TSpline3* spline_sec3[16];
 
 //par file for the standard deviation of X_cal:
 #include <ctime>
@@ -187,6 +191,7 @@ for (Int_t i = 0; i < 16; i++){
 	splines_sec0->Draw("same");
 	sprintf(f_splines,"/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/parameters/spline_sec_0_anode_%i.xml",i);	
 	splines_sec0->SaveAs(f_splines);
+	spline_sec0[i] = splines_sec0;
 
 }
 sec0_c.Modified();
@@ -262,6 +267,7 @@ for (Int_t i = 0; i < 16; i++){
 	splines_sec1->Draw("same");
 	sprintf(f_splines,"/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/parameters/spline_sec_1_anode_%i.root",i);	
 	splines_sec1->SaveAs(f_splines);
+	spline_sec1[i] = splines_sec1;
 
 }
 sec1_c.Modified();
@@ -336,6 +342,7 @@ for (Int_t i = 0; i < 16; i++){
 	splines_sec2->Draw("same");
 	sprintf(f_splines,"/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/parameters/spline_sec_2_anode_%i.root",i);	
 	splines_sec2->SaveAs(f_splines);
+	spline_sec2[i] = splines_sec2;
 
 }
 sec2_c.Modified();
@@ -411,6 +418,7 @@ for (Int_t i = 0; i < 16; i++){
 	splines_sec3->Draw("same");
 	sprintf(f_splines,"/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/parameters/spline_sec_3_anode_%i.root",i);	
 	splines_sec3->SaveAs(f_splines);
+	spline_sec3[i] = splines_sec3;
 
 }
 sec3_c.Modified();
@@ -464,5 +472,19 @@ for (Int_t i = 0; i < 16; i++){
 l->Add(h2_delta_x_vs_xcal_sec3[i]);
 }
 l->Write("histlist", TObject::kSingleKey);
+TList* list_spline = new TList();
+for (Int_t i = 0; i < 16; i++){
+list_spline->Add(spline_sec0[i]);
+}
+for (Int_t i = 0; i < 16; i++){
+list_spline->Add(spline_sec1[i]);
+}
+for (Int_t i = 0; i < 16; i++){
+list_spline->Add(spline_sec2[i]);
+}
+for (Int_t i = 0; i < 16; i++){
+list_spline->Add(spline_sec3[i]);
+}
+list_spline->Write("list_tspline", TObject::kSingleKey);
 par_file.close();
 }
