@@ -34,6 +34,10 @@ const double pos_mw1_z = 0; //chosen by myself it's actually 300 mm from target
 const double pos_mw2_z = 935 - 300; //mm
 const double pos_twim_entrance = (610-200+12.5) -300;
 const double twim_anode_frish_grid_dist = 110. ;//mm
+vector<vector<double> > dummy_vec {
+                {-1000,-1000,-1000,-1000,-1000},
+                {-1000,-1000,-1000,-1000,-1000}
+                };
  
 
 void tof_calibration(const string& input_str){
@@ -108,6 +112,62 @@ h2_deltax_xal_sec3[i]->GetXaxis()->CenterTitle(true);
 h2_deltax_xal_sec3[i]->GetYaxis()->CenterTitle(true);
 h2_deltax_xal_sec3[i]->GetYaxis()->SetLabelSize(0.045);
 h2_deltax_xal_sec3[i]->GetYaxis()->SetTitleSize(0.045);
+}
+
+TH2D* h2_tofns_vs_ypos[29];
+for (Int_t i = 0; i < 29; i++){
+sprintf(hist_name,"TOFW pad %i tof_ns vs extrapolated y-pos.",i);
+h2_tofns_vs_ypos[i] = new TH2D(hist_name,hist_name,500,-50,50,600,-300,300);
+h2_tofns_vs_ypos[i]->GetXaxis()->SetTitle("tof ns");
+h2_tofns_vs_ypos[i]->GetYaxis()->SetTitle("Extrap. y-pos [mm]");
+h2_tofns_vs_ypos[i]->GetXaxis()->CenterTitle(true);
+h2_tofns_vs_ypos[i]->GetYaxis()->CenterTitle(true);
+h2_tofns_vs_ypos[i]->GetYaxis()->SetLabelSize(0.045);
+h2_tofns_vs_ypos[i]->GetYaxis()->SetTitleSize(0.045);
+}
+TH2D* h2_tofns_vs_ypos2X2Y_LD_RU[29];
+for (Int_t i = 0; i < 29; i++){
+sprintf(hist_name,"TOFW pad %i tof_ns vs extrapolated y-pos. for subcase 2X2Y-LD-RU",i);
+h2_tofns_vs_ypos2X2Y_LD_RU[i] = new TH2D(hist_name,hist_name,500,-50,50,600,-300,300);
+h2_tofns_vs_ypos2X2Y_LD_RU[i]->GetXaxis()->SetTitle("tof ns");
+h2_tofns_vs_ypos2X2Y_LD_RU[i]->GetYaxis()->SetTitle("Extrap. y-pos [mm]");
+h2_tofns_vs_ypos2X2Y_LD_RU[i]->GetXaxis()->CenterTitle(true);
+h2_tofns_vs_ypos2X2Y_LD_RU[i]->GetYaxis()->CenterTitle(true);
+h2_tofns_vs_ypos2X2Y_LD_RU[i]->GetYaxis()->SetLabelSize(0.045);
+h2_tofns_vs_ypos2X2Y_LD_RU[i]->GetYaxis()->SetTitleSize(0.045);
+}
+TH2D* h2_tofns_vs_ypos2X2Y_LU_RD[29];
+for (Int_t i = 0; i < 29; i++){
+sprintf(hist_name,"TOFW pad %i tof_ns vs extrapolated y-pos. for subcase 2X2Y-LU-RD",i);
+h2_tofns_vs_ypos2X2Y_LU_RD[i] = new TH2D(hist_name,hist_name,500,-50,50,600,-300,300);
+h2_tofns_vs_ypos2X2Y_LU_RD[i]->GetXaxis()->SetTitle("tof ns");
+h2_tofns_vs_ypos2X2Y_LU_RD[i]->GetYaxis()->SetTitle("Extrap. y-pos [mm]");
+h2_tofns_vs_ypos2X2Y_LU_RD[i]->GetXaxis()->CenterTitle(true);
+h2_tofns_vs_ypos2X2Y_LU_RD[i]->GetYaxis()->CenterTitle(true);
+h2_tofns_vs_ypos2X2Y_LU_RD[i]->GetYaxis()->SetLabelSize(0.045);
+h2_tofns_vs_ypos2X2Y_LU_RD[i]->GetYaxis()->SetTitleSize(0.045);
+}
+TH2D* h2_tofns_vs_ypos2X2Y_L[29];
+for (Int_t i = 0; i < 29; i++){
+sprintf(hist_name,"TOFW pad %i tof_ns vs extrapolated y-pos. for subcase 2X2Y-L",i);
+h2_tofns_vs_ypos2X2Y_L[i] = new TH2D(hist_name,hist_name,500,-50,50,600,-300,300);
+h2_tofns_vs_ypos2X2Y_L[i]->GetXaxis()->SetTitle("tof ns");
+h2_tofns_vs_ypos2X2Y_L[i]->GetYaxis()->SetTitle("Extrap. y-pos [mm]");
+h2_tofns_vs_ypos2X2Y_L[i]->GetXaxis()->CenterTitle(true);
+h2_tofns_vs_ypos2X2Y_L[i]->GetYaxis()->CenterTitle(true);
+h2_tofns_vs_ypos2X2Y_L[i]->GetYaxis()->SetLabelSize(0.045);
+h2_tofns_vs_ypos2X2Y_L[i]->GetYaxis()->SetTitleSize(0.045);
+}
+TH2D* h2_tofns_vs_ypos2X2Y_R[29];
+for (Int_t i = 0; i < 29; i++){
+sprintf(hist_name,"TOFW pad %i tof_ns vs extrapolated y-pos. for subcase 2X2Y-R",i);
+h2_tofns_vs_ypos2X2Y_R[i] = new TH2D(hist_name,hist_name,500,-50,50,600,-300,300);
+h2_tofns_vs_ypos2X2Y_R[i]->GetXaxis()->SetTitle("tof ns");
+h2_tofns_vs_ypos2X2Y_R[i]->GetYaxis()->SetTitle("Extrap. y-pos [mm]");
+h2_tofns_vs_ypos2X2Y_R[i]->GetXaxis()->CenterTitle(true);
+h2_tofns_vs_ypos2X2Y_R[i]->GetYaxis()->CenterTitle(true);
+h2_tofns_vs_ypos2X2Y_R[i]->GetYaxis()->SetLabelSize(0.045);
+h2_tofns_vs_ypos2X2Y_R[i]->GetYaxis()->SetTitleSize(0.045);
 }
 //------------------------------------------------
 
@@ -796,7 +856,6 @@ for(Long64_t i=0;i < nevents;i++){
 			//subsubcase 2X2Y-LD-RU: one left down && one right up
 			if (peaks_X_mw1_down[0] > 0 && peaks_X_mw2_down[0] > 0 && peaks_X_mw1_up[0] < 0 && peaks_X_mw2_up[0] < 0 && e_sum_sec_0 > 0 && e_sum_sec_2 > 0 && e_sum_sec_1 == 0 && e_sum_sec_3 == 0 && (abs(sec_0_arr[15]- sec_0_arr[0])) < 3000 && (abs(sec_2_arr[15]- sec_2_arr[0])) < 3000){
 				//cout << "subsubcase 2X2Y-LD-RU: one left down && one right up" << endl;
-				cout <<"before"<< endl;
 			double arr_xal_sec_0[16] = {-1000.};
 			double arr_xal_sec_2[16] = {-1000.};
 			for (Int_t j = 0; j < 16; j++){
@@ -804,7 +863,6 @@ for(Long64_t i=0;i < nevents;i++){
 				arr_xal_sec_0[j] = v_dt_twim[0][j][0]*(drift_sec_0_arr[j]-Tref_section0)+v_dt_twim[0][j][1];	
 				arr_xal_sec_2[j] = v_dt_twim[2][j][0]*(drift_sec_2_arr[j]-Tref_section2)+v_dt_twim[2][j][1];	
 				}
-			cout << "in the middle" << endl;
 			//just use the first 10 anode dt values to make the fit
 			Int_t n_fitpoints = 10;
 			Double_t x[10], y_sec0[10], y_sec2[10];
@@ -826,42 +884,69 @@ for(Long64_t i=0;i < nevents;i++){
 			// Get the fit parameters for section 2
 			Double_t slope_sec2 = fit_sec2->GetParameter(0);
 			Double_t offset_sec2 = fit_sec2->GetParameter(1);
-			cout << "after fitting" << endl;
 			//Calculate psi_in (from slope)
 			Double_t psi_in_sec0 = atan(slope_sec0);
 			Double_t psi_in_sec2 = atan(slope_sec2);
-			cout << "after atan" << endl;
 
 			Double_t mw1_x_sec0 = slope_sec0*4.5 + offset_sec0;
 			Double_t mw1_x_sec2 = slope_sec2*4.5 + offset_sec2;
-			cout << "Entries mw3" << SofMwpc3CalData->GetEntriesFast() << endl;
-			cout << "Entries tofsingletcal" << SofTofWSingleTcalData->GetEntriesFast() << endl;
+			//cout << "eventnr:\t" << evtnr << endl;
 			vector<vector<double> > tof_mw_values = after_glad_pos(SofMwpc3CalData,SofTofWSingleTcalData);
-			cout << "mw3 positions" << tof_mw_values[0][0] << "   " << tof_mw_values[1][0] << endl;
-			vector<double> pathlength_sec0 = path_tof_calc(psi_in_sec0,mw1_x_sec0,tof_mw_values[0][0],tof_mw_values[0][2],start_time);
-			vector<double> pathlength_sec2 = path_tof_calc(psi_in_sec2,mw1_x_sec2,tof_mw_values[1][0],tof_mw_values[1][2],start_time);
-			cout << "after pathlength computation" << endl;
-			//now interpolate y-position on TOF from MW1_y and MW2_y
-			sort(peaks_Y_mw2.begin(),peaks_Y_mw2.end());
-			sort(peaks_Y_mw1.begin(),peaks_Y_mw1.end());
-			Double_t slope_Y_sec0 = (peaks_Y_mw2[0]-peaks_Y_mw1[0])/(93.5-4.5);
-			Double_t slope_Y_sec2 = (peaks_Y_mw2[1]-peaks_Y_mw1[1])/(93.5-4.5);
-			Double_t offset_Y_sec0 = peaks_Y_mw2[0] - 93.5*slope_Y_sec0;
-			Double_t offset_Y_sec2 = peaks_Y_mw2[1] - 93.5*slope_Y_sec2;
-			Double_t y_extrap_sec0 = (pathlength_sec0[0]-73.75)*slope_Y_sec0+offset_Y_sec0; //offset of 73.75 because target position is at -73.75
-			Double_t y_extrap_sec2 = (pathlength_sec2[0]-73.75)*slope_Y_sec2+offset_Y_sec2; 
-			//now the final tof calibration
-			//for section 0: tof_mw_values[0][1],y_extrap_sec0
-			//for section 2: tof_mw_values[1][1],y_extrap_sec2
-			cout << "after" << endl;
-
+			if (tof_mw_values != dummy_vec){
+				if (tof_mw_values[0][0] > tof_mw_values[1][0]) continue;
+				else{
+					vector<double> cache((tof_mw_values[0]).begin(),(tof_mw_values[0]).end());
+					tof_mw_values[0] = tof_mw_values[1];
+					tof_mw_values[1] = cache;
+					}
+				vector<double> pathlength_sec0 = path_tof_calc(psi_in_sec0,mw1_x_sec0,tof_mw_values[0][0],tof_mw_values[0][3],start_time);
+				vector<double> pathlength_sec2 = path_tof_calc(psi_in_sec2,mw1_x_sec2,tof_mw_values[1][0],tof_mw_values[1][3],start_time);
+				//cout << "pathlengths:" << pathlength_sec0[0] << "   " << pathlength_sec2[0] << endl;
+				//now interpolate y-position on TOF from MW1_y and MW2_y
+				sort(peaks_Y_mw2.begin(),peaks_Y_mw2.end());
+				sort(peaks_Y_mw1.begin(),peaks_Y_mw1.end());
+				transform(peaks_Y_mw2.begin(),peaks_Y_mw2.end(),peaks_Y_mw2.begin(),[](double& c){return c*0.1;}); //here I transform the y from mm in cm, all a little bit messy...
+				transform(peaks_Y_mw1.begin(),peaks_Y_mw1.end(),peaks_Y_mw1.begin(),[](double& c){return c*0.1;}); //here I transform the y from mm in cm, all a little bit messy...
+				Double_t slope_Y_sec0 = (peaks_Y_mw2[0]-peaks_Y_mw1[0])/(93.5-4.5);
+				Double_t slope_Y_sec2 = (peaks_Y_mw2[1]-peaks_Y_mw1[1])/(93.5-4.5);
+				Double_t offset_Y_sec0 = peaks_Y_mw2[0] - 93.5*slope_Y_sec0;
+				Double_t offset_Y_sec2 = peaks_Y_mw2[1] - 93.5*slope_Y_sec2;
+				Double_t y_extrap_sec0 = (pathlength_sec0[0]-73.75)*slope_Y_sec0+offset_Y_sec0; //offset of 73.75 because target position is at -73.75
+				Double_t y_extrap_sec2 = (pathlength_sec2[0]-73.75)*slope_Y_sec2+offset_Y_sec2; 
+				if (y_extrap_sec2 > 300 || y_extrap_sec0 > 300){
+					cout << "y_ectrap_sec2:\t" << y_extrap_sec2  << "   and y_extrap_sec0:\t" << y_extrap_sec0 << endl; 
+					cout << "mw1_y_down:\t" <<peaks_Y_mw1[0] << endl;
+					cout << "mw1_y_up:\t" <<peaks_Y_mw1[1] << endl;
+					cout << "mx2_y_down:\t" << peaks_Y_mw2[0] << endl;
+					cout << "mx2_y_up:\t" << peaks_Y_mw2[1] << endl;
+					cout << "The corresponding eventnr is:\t" << evtnr << endl;
+					cout << "pathlength0 and pathlength2:\t" << pathlength_sec0[0] << "    " << pathlength_sec2[0] << endl;
+					}
+				//cout << "y-value MW2:\t" << peaks_Y_mw2[0] << endl;
+				//cout << "y-value MW1:\t" << peaks_Y_mw1[0] << endl;
+				//cout << "slope y sec0:\t" << slope_Y_sec0 << endl;
+				//cout << "offset_Y_sec0:\t" << offset_Y_sec0 << endl;
+				//cout << "pathlength sec0:\t" << pathlength_sec0[0] << endl;
+				//cout << "y_extrap_sec0:\t" << y_extrap_sec0 << endl;
+				//now the final tof calibration
+				//for section 0: tof_mw_values[0][1],y_extrap_sec0
+				//for section 2: tof_mw_values[1][1],y_extrap_sec2
+		//		if ( ((Int_t) tof_mw_values[0][4]) == 16){
+		//		cout << "sec0 extrapol:\t" << y_extrap_sec0 << " and tofnr:\t" << tof_mw_values[0][2] << endl;
+		//		cout << "and tofns of other:\t" << tof_mw_values[1][2] << endl;
+		//			}
+				h2_tofns_vs_ypos[((Int_t) tof_mw_values[0][4])]->Fill(tof_mw_values[0][2],y_extrap_sec0*10); //again back to mm, annoying....
+				h2_tofns_vs_ypos[((Int_t) tof_mw_values[1][4])]->Fill(tof_mw_values[1][2],y_extrap_sec2*10);
+				h2_tofns_vs_ypos2X2Y_LD_RU[((Int_t) tof_mw_values[0][4])]->Fill(tof_mw_values[0][2],y_extrap_sec0*10);
+				h2_tofns_vs_ypos2X2Y_LD_RU[((Int_t) tof_mw_values[1][4])]->Fill(tof_mw_values[1][2],y_extrap_sec2*10);
+				}
 			delete  gr_sec0;
 			delete  gr_sec2;
 			delete fit_sec0;
 			delete fit_sec2;	
 				}
 			//subsubcase 2X2Y-LU-RD: one left up && one right down
-			if (peaks_X_mw1_down[0] < 0 && peaks_X_mw2_down[0] < 0 && peaks_X_mw1_up[0] > 0 && peaks_X_mw2_up[0] > 0 && e_sum_sec_1 > 0 && e_sum_sec_3 > 0 && e_sum_sec_0 == 0 && e_sum_sec_2 == 0){
+			if (peaks_X_mw1_down[0] < 0 && peaks_X_mw2_down[0] < 0 && peaks_X_mw1_up[0] > 0 && peaks_X_mw2_up[0] > 0 && e_sum_sec_1 > 0 && e_sum_sec_3 > 0 && e_sum_sec_0 == 0 && e_sum_sec_2 == 0 && (abs(sec_1_arr[15]- sec_1_arr[0])) < 3000 && (abs(sec_3_arr[15]- sec_3_arr[0])) < 3000){
 				//cout << "subsubcase 2X2Y-LU-RD: one left up && one right down" << endl;
 			double arr_xal_sec_1[16] = {-1000.};
 			double arr_xal_sec_3[16] = {-1000.};
@@ -875,8 +960,8 @@ for(Long64_t i=0;i < nevents;i++){
 			Double_t x[10], y_sec1[10], y_sec3[10];
 			for ( Int_t j = 3; j < 13; j++){
 				x[j-3] = pos_twim_entrance + j*twim_anodes_width;
-				y_sec1[j-3] = arr_xal_sec_1[j];
-				y_sec3[j-3] = arr_xal_sec_3[j];
+				y_sec1[j-3] = arr_xal_sec_1[j] + (spline_sec1[j]->Eval(arr_xal_sec_1[j]));
+				y_sec3[j-3] = arr_xal_sec_3[j] + (spline_sec3[j]->Eval(arr_xal_sec_3[j]));
 				}
 			TGraph* gr_sec1 = new TGraph(n_fitpoints,x,y_sec1);
 			TGraph* gr_sec3 = new TGraph(n_fitpoints,x,y_sec3);
@@ -891,117 +976,186 @@ for(Long64_t i=0;i < nevents;i++){
 			// Get the fit parameters for section 2
 			Double_t slope_sec3 = fit_sec3->GetParameter(0);
 			Double_t offset_sec3 = fit_sec3->GetParameter(1);
+			//Calculate psi_in (from slope)
+			Double_t psi_in_sec1 = atan(slope_sec1);
+			Double_t psi_in_sec3 = atan(slope_sec3);
 
-			//Get the deltax values
-			 double arr_deltax_sec_1[16] = {-1000.};
-			 double arr_deltax_sec_3[16] = {-1000.};
-			for ( Int_t j = 0; j < 16; j++){
-				arr_deltax_sec_1[j] = (slope_sec1*(pos_twim_entrance + j*twim_anodes_width) + offset_sec1) - arr_xal_sec_1[j];
-				arr_deltax_sec_3[j] = (slope_sec3*(pos_twim_entrance + j*twim_anodes_width) + offset_sec3) - arr_xal_sec_3[j];
-				h2_deltax_xal_sec1[j]->Fill(arr_xal_sec_1[j],arr_deltax_sec_1[j]);
-				h2_deltax_xal_sec3[j]->Fill(arr_xal_sec_3[j],arr_deltax_sec_3[j]);
+			Double_t mw1_x_sec1 = slope_sec1*4.5 + offset_sec1;
+			Double_t mw1_x_sec3 = slope_sec3*4.5 + offset_sec3;
+			//cout << "eventnr:\t" << evtnr << endl;
+			vector<vector<double> > tof_mw_values = after_glad_pos(SofMwpc3CalData,SofTofWSingleTcalData);
+			if (tof_mw_values != dummy_vec){
+				if (tof_mw_values[0][0] > tof_mw_values[1][0]) continue;
+				else{
+					vector<double> cache((tof_mw_values[0]).begin(),(tof_mw_values[0]).end());
+					tof_mw_values[0] = tof_mw_values[1];
+					tof_mw_values[1] = cache;
+					}
+				vector<double> pathlength_sec1 = path_tof_calc(psi_in_sec1,mw1_x_sec1,tof_mw_values[0][0],tof_mw_values[0][3],start_time);
+				vector<double> pathlength_sec3 = path_tof_calc(psi_in_sec3,mw1_x_sec3,tof_mw_values[1][0],tof_mw_values[1][3],start_time);
+				//now interpolate y-position on TOF from MW1_y and MW2_y
+				sort(peaks_Y_mw2.begin(),peaks_Y_mw2.end());
+				sort(peaks_Y_mw1.begin(),peaks_Y_mw1.end());
+				transform(peaks_Y_mw2.begin(),peaks_Y_mw2.end(),peaks_Y_mw2.begin(),[](double& c){return c*0.1;}); //here I transform the y from mm in cm, all a little bit messy...
+				transform(peaks_Y_mw1.begin(),peaks_Y_mw1.end(),peaks_Y_mw1.begin(),[](double& c){return c*0.1;}); //here I transform the y from mm in cm, all a little bit messy...
+				Double_t slope_Y_sec1 = (peaks_Y_mw2[1]-peaks_Y_mw1[1])/(93.5-4.5);
+				Double_t slope_Y_sec3 = (peaks_Y_mw2[0]-peaks_Y_mw1[0])/(93.5-4.5);
+				Double_t offset_Y_sec1 = peaks_Y_mw2[1] - 93.5*slope_Y_sec1;
+				Double_t offset_Y_sec3 = peaks_Y_mw2[0] - 93.5*slope_Y_sec3;
+				Double_t y_extrap_sec1 = (pathlength_sec1[0]-73.75)*slope_Y_sec1+offset_Y_sec1; //offset of 73.75 because target position is at -73.75
+				Double_t y_extrap_sec3 = (pathlength_sec3[0]-73.75)*slope_Y_sec3+offset_Y_sec3; 
+				if (y_extrap_sec1 > 300 || y_extrap_sec3 > 300){
+					cout << "mw1_y_down:\t" <<peaks_Y_mw1[0] << endl;
+					cout << "mw1_y_up:\t" <<peaks_Y_mw1[1] << endl;
+					cout << "mx2_y_down:\t" << peaks_Y_mw2[0] << endl;
+					cout << "mx2_y_up:\t" << peaks_Y_mw2[1] << endl;
+					cout << "y_ectrap_sec1:\t" << y_extrap_sec1  << "   and y_extrap_sec3:\t" << y_extrap_sec3 << endl; 
+					cout << "The corresponding eventnr is:\t" << evtnr << endl;
+					cout << "pathlength 1 and pathlength 3:\t" << pathlength_sec1[0] << "    " << pathlength_sec3[0] << endl;
+					}
+				//now the final tof calibration
+				//for section 0: tof_mw_values[0][1],y_extrap_sec0
+				//for section 2: tof_mw_values[1][1],y_extrap_sec2
+				h2_tofns_vs_ypos[((Int_t) tof_mw_values[0][4])]->Fill(tof_mw_values[0][2],y_extrap_sec1*10); //again back to mm, annoying....
+				h2_tofns_vs_ypos[((Int_t) tof_mw_values[1][4])]->Fill(tof_mw_values[1][2],y_extrap_sec3*10);
+				h2_tofns_vs_ypos2X2Y_LU_RD[((Int_t) tof_mw_values[0][4])]->Fill(tof_mw_values[0][2],y_extrap_sec1*10);
+				h2_tofns_vs_ypos2X2Y_LU_RD[((Int_t) tof_mw_values[1][4])]->Fill(tof_mw_values[1][2],y_extrap_sec3*10);
 				}
+
 			delete  gr_sec1;
 			delete  gr_sec3;
 			delete fit_sec1;
 			delete fit_sec3;	
 				}
-			//subsubcase 2X2Y-L: one left down && one left up
-			if (peaks_X_mw1_down[0] > 0 && peaks_X_mw2_down[0] > 0 && peaks_X_mw1_up[0] > 0 && peaks_X_mw2_up[0] > 0 && e_sum_sec_0 > 0 && e_sum_sec_1 > 0 && e_sum_sec_2 == 0 && e_sum_sec_3 == 0 ){
-				//cout << "subsubcase 2X2Y-L: one left down && one left up" << endl;
-			double arr_xal_sec_0[16] = {-1000.};
-			double arr_xal_sec_1[16] = {-1000.};
-			for (Int_t j = 0; j < 16; j++){
-				Double_t anode_z_pos = pos_twim_entrance + j*twim_anodes_width;
-				arr_xal_sec_0[j] = v_dt_twim[0][j][0]*(drift_sec_0_arr[j]-Tref_section0)+v_dt_twim[0][j][1];	
-				arr_xal_sec_1[j] = v_dt_twim[1][j][0]*(drift_sec_1_arr[j]-Tref_section1)+v_dt_twim[1][j][1];	
-				}
-			//just use the first 10 anode dt values to make the fit
-			Int_t n_fitpoints = 10;
-			Double_t x[10], y_sec0[10], y_sec1[10];
-			for ( Int_t j = 3; j < 13; j++){
-				x[j-3] = pos_twim_entrance + j*twim_anodes_width;
-				y_sec0[j-3] = arr_xal_sec_0[j];
-				y_sec1[j-3] = arr_xal_sec_1[j];
-				}
-			TGraph* gr_sec0 = new TGraph(n_fitpoints,x,y_sec0);
-			TGraph* gr_sec1 = new TGraph(n_fitpoints,x,y_sec1);
-			TF1* fit_sec0 = new TF1("fit_sec0","[0]*x+ [1]");
-			TF1* fit_sec1 = new TF1("fit_sec1","[0]*x+ [1]");
-			gr_sec0->Fit(fit_sec0,"Q");
-			gr_sec1->Fit(fit_sec1,"Q");
-			// Get the fit parameters for section 0
-			Double_t slope_sec0 = fit_sec0->GetParameter(0);
-			Double_t offset_sec0 = fit_sec0->GetParameter(1);
-
-			// Get the fit parameters for section 1
-			Double_t slope_sec1 = fit_sec1->GetParameter(0);
-			Double_t offset_sec1 = fit_sec1->GetParameter(1);
-
-			//Get the deltax values
-			 double arr_deltax_sec_0[16] = {-1000.};
-			 double arr_deltax_sec_1[16] = {-1000.};
-			for ( Int_t j = 0; j < 16; j++){
-				arr_deltax_sec_0[j] = (slope_sec0*(pos_twim_entrance + j*twim_anodes_width) + offset_sec0) - arr_xal_sec_0[j];
-				arr_deltax_sec_1[j] = (slope_sec1*(pos_twim_entrance + j*twim_anodes_width) + offset_sec1) - arr_xal_sec_1[j];
-				h2_deltax_xal_sec0[j]->Fill(arr_xal_sec_0[j],arr_deltax_sec_0[j]);
-				h2_deltax_xal_sec1[j]->Fill(arr_xal_sec_1[j],arr_deltax_sec_1[j]);
-				}
-			delete  gr_sec0;
-			delete  gr_sec1;
-			delete fit_sec0;
-			delete fit_sec1;	
-				}
-			//subsubcase 2X2Y-R: one right down && one right up
-			if (peaks_X_mw1_down[0] < 0 && peaks_X_mw2_down[0] < 0 && peaks_X_mw1_up[0] < 0 && peaks_X_mw2_up[0] < 0 && e_sum_sec_2 > 0 && e_sum_sec_3 > 0 && e_sum_sec_0 == 0 && e_sum_sec_1 == 0){
-				//cout << "subsubcase 2X2Y-R: one right down && one right up" << endl;
-
-			double arr_xal_sec_2[16] = {-1000.};
-			double arr_xal_sec_3[16] = {-1000.};
-			for (Int_t j = 0; j < 16; j++){
-				Double_t anode_z_pos = pos_twim_entrance + j*twim_anodes_width;
-				arr_xal_sec_2[j] = v_dt_twim[2][j][0]*(drift_sec_2_arr[j]-Tref_section2) + v_dt_twim[2][j][1];	
-				arr_xal_sec_3[j] = v_dt_twim[3][j][0]*(drift_sec_3_arr[j]-Tref_section3) +v_dt_twim[3][j][1];	
-				}
-
-
-			//just use the first 10 anode dt values to make the fit
-			Int_t n_fitpoints = 10;
-			Double_t x[10], y_sec2[10], y_sec3[10];
-			for ( Int_t j = 3; j < 13; j++){
-				x[j-3] = pos_twim_entrance + j*twim_anodes_width;
-				y_sec2[j-3] = arr_xal_sec_2[j];
-				y_sec3[j-3] = arr_xal_sec_3[j];
-				}
-			TGraph* gr_sec2 = new TGraph(n_fitpoints,x,y_sec2);
-			TGraph* gr_sec3 = new TGraph(n_fitpoints,x,y_sec3);
-			TF1* fit_sec2 = new TF1("fit_sec2","[0]*x+ [1]");
-			TF1* fit_sec3 = new TF1("fit_sec3","[0]*x+ [1]");
-			gr_sec2->Fit(fit_sec2,"Q");
-			gr_sec3->Fit(fit_sec3,"Q");
-			// Get the fit parameters for section 2
-			Double_t slope_sec2 = fit_sec2->GetParameter(0);
-			Double_t offset_sec2 = fit_sec2->GetParameter(1);
-
-			// Get the fit parameters for section 3
-			Double_t slope_sec3 = fit_sec3->GetParameter(0);
-			Double_t offset_sec3 = fit_sec3->GetParameter(1);
-
-			//Get the deltax values
-			 double arr_deltax_sec_2[16] = {-1000.};
-			 double arr_deltax_sec_3[16] = {-1000.};
-			for ( Int_t j = 0; j < 16; j++){
-				arr_deltax_sec_2[j] = (slope_sec2*(pos_twim_entrance + j*twim_anodes_width) + offset_sec2) - arr_xal_sec_2[j];
-				arr_deltax_sec_3[j] = (slope_sec3*(pos_twim_entrance + j*twim_anodes_width) + offset_sec3) - arr_xal_sec_3[j];
-				h2_deltax_xal_sec2[j]->Fill(arr_xal_sec_2[j],arr_deltax_sec_2[j]);
-				h2_deltax_xal_sec3[j]->Fill(arr_xal_sec_3[j],arr_deltax_sec_3[j]);
-				}
-			delete  gr_sec2;
-			delete  gr_sec3;
-			delete fit_sec2;
-			delete fit_sec3;	
-				}
-
+//			//subsubcase 2X2Y-L: one left down && one left up
+//			if (peaks_X_mw1_down[0] > 0 && peaks_X_mw2_down[0] > 0 && peaks_X_mw1_up[0] > 0 && peaks_X_mw2_up[0] > 0 && e_sum_sec_0 > 0 && e_sum_sec_1 > 0 && e_sum_sec_2 == 0 && e_sum_sec_3 == 0 && (abs(sec_0_arr[15]- sec_0_arr[0])) < 3000 && (abs(sec_1_arr[15]- sec_1_arr[0])) < 3000){
+//				//cout << "subsubcase 2X2Y-L: one left down && one left up" << endl;
+//			double arr_xal_sec_0[16] = {-1000.};
+//			double arr_xal_sec_1[16] = {-1000.};
+//			for (Int_t j = 0; j < 16; j++){
+//				Double_t anode_z_pos = pos_twim_entrance + j*twim_anodes_width;
+//				arr_xal_sec_0[j] = v_dt_twim[0][j][0]*(drift_sec_0_arr[j]-Tref_section0)+v_dt_twim[0][j][1];	
+//				arr_xal_sec_1[j] = v_dt_twim[1][j][0]*(drift_sec_1_arr[j]-Tref_section1)+v_dt_twim[1][j][1];	
+//				}
+//			//just use the first 10 anode dt values to make the fit
+//			Int_t n_fitpoints = 10;
+//			Double_t x[10], y_sec0[10], y_sec1[10];
+//			for ( Int_t j = 3; j < 13; j++){
+//				x[j-3] = pos_twim_entrance + j*twim_anodes_width;
+//				y_sec0[j-3] = arr_xal_sec_0[j] + (spline_sec0[j]->Eval(arr_xal_sec_0[j]));
+//				y_sec1[j-3] = arr_xal_sec_1[j] + (spline_sec1[j]->Eval(arr_xal_sec_1[j]));
+//				}
+//			TGraph* gr_sec0 = new TGraph(n_fitpoints,x,y_sec0);
+//			TGraph* gr_sec1 = new TGraph(n_fitpoints,x,y_sec1);
+//			TF1* fit_sec0 = new TF1("fit_sec0","[0]*x+ [1]");
+//			TF1* fit_sec1 = new TF1("fit_sec1","[0]*x+ [1]");
+//			gr_sec0->Fit(fit_sec0,"Q");
+//			gr_sec1->Fit(fit_sec1,"Q");
+//			// Get the fit parameters for section 0
+//			Double_t slope_sec0 = fit_sec0->GetParameter(0);
+//			Double_t offset_sec0 = fit_sec0->GetParameter(1);
+//
+//			// Get the fit parameters for section 1
+//			Double_t slope_sec1 = fit_sec1->GetParameter(0);
+//			Double_t offset_sec1 = fit_sec1->GetParameter(1);
+//			
+//			//Calculate psi_in (from slope)
+//			Double_t psi_in_sec0 = atan(slope_sec0);
+//			Double_t psi_in_sec1 = atan(slope_sec1);
+//
+//			Double_t mw1_x_sec0 = slope_sec0*4.5 + offset_sec0;
+//			Double_t mw1_x_sec1 = slope_sec1*4.5 + offset_sec1;
+//			cout << "eventnr:\t" << evtnr << endl;
+//			vector<vector<double> > tof_mw_values = after_glad_pos(SofMwpc3CalData,SofTofWSingleTcalData);
+//			if (tof_mw_values != dummy_vec){
+//				vector<double> pathlength_sec0 = path_tof_calc(psi_in_sec0,mw1_x_sec0,tof_mw_values[0][0],tof_mw_values[0][3],start_time);
+//				vector<double> pathlength_sec1 = path_tof_calc(psi_in_sec1,mw1_x_sec1,tof_mw_values[1][0],tof_mw_values[1][3],start_time);
+//				//now interpolate y-position on TOF from MW1_y and MW2_y
+//				sort(peaks_Y_mw2.begin(),peaks_Y_mw2.end());
+//				sort(peaks_Y_mw1.begin(),peaks_Y_mw1.end());
+//				Double_t slope_Y_sec0 = (peaks_Y_mw2[0]-peaks_Y_mw1[0])/(93.5-4.5);
+//				Double_t slope_Y_sec1 = (peaks_Y_mw2[1]-peaks_Y_mw1[1])/(93.5-4.5);
+//				Double_t offset_Y_sec0 = peaks_Y_mw2[0] - 93.5*slope_Y_sec0;
+//				Double_t offset_Y_sec1 = peaks_Y_mw2[1] - 93.5*slope_Y_sec1;
+//				Double_t y_extrap_sec0 = (pathlength_sec0[0]-73.75)*slope_Y_sec0+offset_Y_sec0; //offset of 73.75 because target position is at -73.75
+//				Double_t y_extrap_sec1 = (pathlength_sec1[0]-73.75)*slope_Y_sec1+offset_Y_sec1; 
+//				//now the final tof calibration
+//				//for section 0: tof_mw_values[0][1],y_extrap_sec0
+//				//for section 2: tof_mw_values[1][1],y_extrap_sec2
+//				h2_tofns_vs_ypos[((Int_t) tof_mw_values[0][4])]->Fill(tof_mw_values[0][2],y_extrap_sec0);
+//				h2_tofns_vs_ypos[((Int_t) tof_mw_values[1][4])]->Fill(tof_mw_values[1][2],y_extrap_sec1);
+//				h2_tofns_vs_ypos2X2Y_L[((Int_t) tof_mw_values[0][4])]->Fill(tof_mw_values[0][2],y_extrap_sec0);
+//				h2_tofns_vs_ypos2X2Y_L[((Int_t) tof_mw_values[1][4])]->Fill(tof_mw_values[1][2],y_extrap_sec1);
+//				}
+//			delete  gr_sec0;
+//			delete  gr_sec1;
+//			delete fit_sec0;
+//			delete fit_sec1;	
+//				}
+//			//subsubcase 2X2Y-R: one right down && one right up
+//			if (peaks_X_mw1_down[0] < 0 && peaks_X_mw2_down[0] < 0 && peaks_X_mw1_up[0] < 0 && peaks_X_mw2_up[0] < 0 && e_sum_sec_2 > 0 && e_sum_sec_3 > 0 && e_sum_sec_0 == 0 && e_sum_sec_1 == 0 && (abs(sec_2_arr[15]- sec_2_arr[0])) < 3000 && (abs(sec_3_arr[15]- sec_3_arr[0])) < 3000){
+//				//cout << "subsubcase 2X2Y-R: one right down && one right up" << endl;
+//
+//			double arr_xal_sec_2[16] = {-1000.};
+//			double arr_xal_sec_3[16] = {-1000.};
+//			for (Int_t j = 0; j < 16; j++){
+//				Double_t anode_z_pos = pos_twim_entrance + j*twim_anodes_width;
+//				arr_xal_sec_2[j] = v_dt_twim[2][j][0]*(drift_sec_2_arr[j]-Tref_section2) + v_dt_twim[2][j][1];	
+//				arr_xal_sec_3[j] = v_dt_twim[3][j][0]*(drift_sec_3_arr[j]-Tref_section3) +v_dt_twim[3][j][1];	
+//				}
+//
+//
+//			//just use the first 10 anode dt values to make the fit
+//			Int_t n_fitpoints = 10;
+//			Double_t x[10], y_sec2[10], y_sec3[10];
+//			for ( Int_t j = 3; j < 13; j++){
+//				x[j-3] = pos_twim_entrance + j*twim_anodes_width;
+//				y_sec2[j-3] = arr_xal_sec_2[j] + (spline_sec2[j]->Eval(arr_xal_sec_2[j]));
+//				y_sec3[j-3] = arr_xal_sec_3[j] + (spline_sec3[j]->Eval(arr_xal_sec_3[j]));
+//				}
+//			TGraph* gr_sec2 = new TGraph(n_fitpoints,x,y_sec2);
+//			TGraph* gr_sec3 = new TGraph(n_fitpoints,x,y_sec3);
+//			TF1* fit_sec2 = new TF1("fit_sec2","[0]*x+ [1]");
+//			TF1* fit_sec3 = new TF1("fit_sec3","[0]*x+ [1]");
+//			gr_sec2->Fit(fit_sec2,"Q");
+//			gr_sec3->Fit(fit_sec3,"Q");
+//			// Get the fit parameters for section 2
+//			Double_t slope_sec2 = fit_sec2->GetParameter(0);
+//			Double_t offset_sec2 = fit_sec2->GetParameter(1);
+//
+//			// Get the fit parameters for section 3
+//			Double_t slope_sec3 = fit_sec3->GetParameter(0);
+//			Double_t offset_sec3 = fit_sec3->GetParameter(1);
+//			
+//			//Calculate psi_in (from slope)
+//			Double_t psi_in_sec2 = atan(slope_sec2);
+//			Double_t psi_in_sec3 = atan(slope_sec3);
+//
+//			Double_t mw1_x_sec2 = slope_sec2*4.5 + offset_sec2;
+//			Double_t mw1_x_sec3 = slope_sec3*4.5 + offset_sec3;
+//			cout << "eventnr:\t" << evtnr << endl;
+//			vector<vector<double> > tof_mw_values = after_glad_pos(SofMwpc3CalData,SofTofWSingleTcalData);
+//			if (tof_mw_values != dummy_vec){
+//				vector<double> pathlength_sec2 = path_tof_calc(psi_in_sec2,mw1_x_sec2,tof_mw_values[0][0],tof_mw_values[0][3],start_time);
+//				vector<double> pathlength_sec3 = path_tof_calc(psi_in_sec3,mw1_x_sec3,tof_mw_values[1][0],tof_mw_values[1][3],start_time);
+//				//now interpolate y-position on TOF from MW1_y and MW2_y
+//				sort(peaks_Y_mw2.begin(),peaks_Y_mw2.end());
+//				sort(peaks_Y_mw1.begin(),peaks_Y_mw1.end());
+//				Double_t slope_Y_sec2 = (peaks_Y_mw2[1]-peaks_Y_mw1[0])/(93.5-4.5);
+//				Double_t slope_Y_sec3 = (peaks_Y_mw2[0]-peaks_Y_mw1[1])/(93.5-4.5);
+//				Double_t offset_Y_sec2 = peaks_Y_mw2[1] - 93.5*slope_Y_sec2;
+//				Double_t offset_Y_sec3 = peaks_Y_mw2[0] - 93.5*slope_Y_sec3;
+//				h2_tofns_vs_ypos[((Int_t) tof_mw_values[1][4])]->Fill(tof_mw_values[1][2],y_extrap_sec2);
+//				h2_tofns_vs_ypos2X2Y_R[((Int_t) tof_mw_values[0][4])]->Fill(tof_mw_values[0][2],y_extrap_sec3);
+//				h2_tofns_vs_ypos2X2Y_R[((Int_t) tof_mw_values[1][4])]->Fill(tof_mw_values[1][2],y_extrap_sec2);
+//				}
+//
+//			delete  gr_sec2;
+//			delete  gr_sec3;
+//			delete fit_sec2;
+//			delete fit_sec3;	
+//				}
+//
 			}
 		}
 
@@ -1013,7 +1167,7 @@ for(Long64_t i=0;i < nevents;i++){
 		}
 	}
 char f_out_name[500];
-sprintf(f_out_name,"/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/output_delta_x_final/foo_subrun_%s.root",input_str.c_str());
+sprintf(f_out_name,"/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/tof_cal/tof_cal_subrun_%s.root",input_str.c_str());
 TFile * f = new TFile(f_out_name,"RECREATE");
 TList *l = new TList();
 for (Int_t i = 0; i < 16; i++){
@@ -1028,5 +1182,21 @@ for (Int_t i = 0; i < 16; i++){
 for (Int_t i = 0; i < 16; i++){
 	l->Add(h2_deltax_xal_sec3[i]);
 	}
+for (Int_t i = 0; i < 29; i++){
+	l->Add(h2_tofns_vs_ypos[i]);
+	}
+for (Int_t i = 0; i < 29; i++){
+	l->Add(h2_tofns_vs_ypos2X2Y_LD_RU[i]);
+	}
+for (Int_t i = 0; i < 29; i++){
+	l->Add(h2_tofns_vs_ypos2X2Y_LU_RD[i]);
+	}
+for (Int_t i = 0; i < 29; i++){
+	l->Add(h2_tofns_vs_ypos2X2Y_L[i]);
+	}
+for (Int_t i = 0; i < 29; i++){
+	l->Add(h2_tofns_vs_ypos2X2Y_R[i]);
+	}
+
 l->Write("histlist", TObject::kSingleKey);
 }

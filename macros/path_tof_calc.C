@@ -10,7 +10,7 @@
 #include "TChain.h"
 #include <string>
 using namespace std;
-
+//input in mm and output in cm....not so good...
 vector<double> path_tof_calc (double psi_in,double xMW1,double xMW3,double t_tof,double t_start){  //xMW1 I  will extrapolate from the calibrated MUSIC
 //insert here all detector positions TODO
 
@@ -120,7 +120,11 @@ vector<double> path_tof_calc (double psi_in,double xMW1,double xMW3,double t_tof
         delete gr1;
         delete gr2;
         delete gr3;
-	Double_t path_from_target = abs((zB-zT)/(cos(psi_in)))+rho*w+abs((zToFW-z_D)/cos(psi_out));
+	Double_t path_from_target = (abs((zB-zT)/(cos(psi_in)))+rho*w+abs((zToFW-z_D)/cos(psi_out)))*0.1;  //in cm!
+	//cout << "path from target\t" << path_from_target << endl;
+	//cout << "first part:\t" << abs((zB-zT)/(cos(psi_in))) << endl;
+	//cout << "second part:\t" << rho*w+abs((zToFW-z_D)/cos(psi_out)) << endl;
+	//cout << "psi in:\t" << psi_in << endl;
 	Double_t time_of_flight = t_tof - t_start - time_start_target;
 	vector<double> v_return = {path_from_target,time_of_flight};
 	return v_return;
