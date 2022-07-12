@@ -49,8 +49,14 @@ string fname = string("/scratch5/ge37liw/unpacked_newroot_04_2022/s455_03_273_")
 string cal_fname = string("/scratch5/ge37liw/calibrated_rand_angles/s455_03_273_") + input_str + string("_calibrated.root");
 TFile* file_tsplines_one = TFile::Open("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/macros/spline_position_messel_and_wixhausen.root");
 TList* spline_list_one = (TList*)file_tsplines_one->Get("list_tspline");
-TSpline3* spline_messel = (TSpline3*)spline_list_one->FindObject("Position on 11th anode in music vs Calibrated Energy messel with tcut_pfx");
-TSpline3* spline_wix = (TSpline3*)spline_list_one->FindObject("Position on 11th anode in music vs Calibrated Energy Wixhausen with tcut_pfx");
+TSpline3* spline_messel_sec0 = (TSpline3*)spline_list_one->FindObject("Position on 11th anode in music vs Calibrated Energy messel with tcut,section0_pfx");
+TSpline3* spline_messel_sec1 = (TSpline3*)spline_list_one->FindObject("Position on 11th anode in music vs Calibrated Energy messel with tcut,section1_pfx");
+TSpline3* spline_wix_sec2 = (TSpline3*)spline_list_one->FindObject("Position on 11th anode in music vs Calibrated Energy Wixhausen with tcut,section2_pfx");
+TSpline3* spline_wix_sec3 = (TSpline3*)spline_list_one->FindObject("Position on 11th anode in music vs Calibrated Energy Wixhausen with tcut,section3_pfx");
+const double mean_pos_sec0 = 226766;
+const double mean_pos_sec1 = 239296;
+const double mean_pos_sec2 = 274225;
+const double mean_pos_sec3 = 262821;
 
 const char* char_fname= fname.c_str();
 const char* char_cal_fname = cal_fname.c_str();
@@ -77,6 +83,53 @@ h2_beta_vs_energy->GetYaxis()->CenterTitle(true);
 h2_beta_vs_energy->GetYaxis()->SetLabelSize(0.045);
 h2_beta_vs_energy->GetYaxis()->SetTitleSize(0.045);
 
+//do the above analysis section-wise
+//section0
+TH2D* h2_beta_vs_energy_sec0;
+sprintf(hist_name,"Beta vs Calibrated Energy,section0");
+h2_beta_vs_energy_sec0 = new TH2D(hist_name,hist_name,500,0.73,0.83,950,0,450000);
+h2_beta_vs_energy_sec0->GetXaxis()->SetTitle("Beta");
+h2_beta_vs_energy_sec0->GetYaxis()->SetTitle("Calibrated Energy [a.u.]");
+h2_beta_vs_energy_sec0->GetXaxis()->CenterTitle(true);
+h2_beta_vs_energy_sec0->GetYaxis()->CenterTitle(true);
+h2_beta_vs_energy_sec0->GetYaxis()->SetLabelSize(0.045);
+h2_beta_vs_energy_sec0->GetYaxis()->SetTitleSize(0.045);
+
+//section1
+TH2D* h2_beta_vs_energy_sec1;
+sprintf(hist_name,"Beta vs Calibrated Energy,section1");
+h2_beta_vs_energy_sec1 = new TH2D(hist_name,hist_name,500,0.73,0.83,950,0,450000);
+h2_beta_vs_energy_sec1->GetXaxis()->SetTitle("Beta");
+h2_beta_vs_energy_sec1->GetYaxis()->SetTitle("Calibrated Energy [a.u.]");
+h2_beta_vs_energy_sec1->GetXaxis()->CenterTitle(true);
+h2_beta_vs_energy_sec1->GetYaxis()->CenterTitle(true);
+h2_beta_vs_energy_sec1->GetYaxis()->SetLabelSize(0.045);
+h2_beta_vs_energy_sec1->GetYaxis()->SetTitleSize(0.045);
+
+//section2
+TH2D* h2_beta_vs_energy_sec2;
+sprintf(hist_name,"Beta vs Calibrated Energy,section2");
+h2_beta_vs_energy_sec2 = new TH2D(hist_name,hist_name,500,0.73,0.83,950,0,450000);
+h2_beta_vs_energy_sec2->GetXaxis()->SetTitle("Beta");
+h2_beta_vs_energy_sec2->GetYaxis()->SetTitle("Calibrated Energy [a.u.]");
+h2_beta_vs_energy_sec2->GetXaxis()->CenterTitle(true);
+h2_beta_vs_energy_sec2->GetYaxis()->CenterTitle(true);
+h2_beta_vs_energy_sec2->GetYaxis()->SetLabelSize(0.045);
+h2_beta_vs_energy_sec2->GetYaxis()->SetTitleSize(0.045);
+
+//section3
+TH2D* h2_beta_vs_energy_sec3;
+sprintf(hist_name,"Beta vs Calibrated Energy,section3");
+h2_beta_vs_energy_sec3 = new TH2D(hist_name,hist_name,500,0.73,0.83,950,0,450000);
+h2_beta_vs_energy_sec3->GetXaxis()->SetTitle("Beta");
+h2_beta_vs_energy_sec3->GetYaxis()->SetTitle("Calibrated Energy [a.u.]");
+h2_beta_vs_energy_sec3->GetXaxis()->CenterTitle(true);
+h2_beta_vs_energy_sec3->GetYaxis()->CenterTitle(true);
+h2_beta_vs_energy_sec3->GetYaxis()->SetLabelSize(0.045);
+h2_beta_vs_energy_sec3->GetYaxis()->SetTitleSize(0.045);
+//end section wise analysis of beta correction
+
+
 TH2D* h2_beta_vs_energy_corr;
 sprintf(hist_name,"Beta vs Calibrated Energy beta corrected");
 h2_beta_vs_energy_corr = new TH2D(hist_name,hist_name,500,0.73,0.83,950,0,450000);
@@ -86,8 +139,53 @@ h2_beta_vs_energy_corr->GetXaxis()->CenterTitle(true);
 h2_beta_vs_energy_corr->GetYaxis()->CenterTitle(true);
 h2_beta_vs_energy_corr->GetYaxis()->SetLabelSize(0.045);
 h2_beta_vs_energy_corr->GetYaxis()->SetTitleSize(0.045);
-TF1* beta_func = new TF1("beta_func","198059*(TMath::Power(x,-5./3.)) + 32590.6");
-const static double mean_ene = 324231.;
+
+TH2D* h2_beta_vs_energy_corr_sec0;
+sprintf(hist_name,"Beta vs Calibrated Energy beta corrected,section0");
+h2_beta_vs_energy_corr_sec0 = new TH2D(hist_name,hist_name,500,0.73,0.83,950,0,450000);
+h2_beta_vs_energy_corr_sec0->GetXaxis()->SetTitle("Beta");
+h2_beta_vs_energy_corr_sec0->GetYaxis()->SetTitle("Calibrated Energy [a.u.]");
+h2_beta_vs_energy_corr_sec0->GetXaxis()->CenterTitle(true);
+h2_beta_vs_energy_corr_sec0->GetYaxis()->CenterTitle(true);
+h2_beta_vs_energy_corr_sec0->GetYaxis()->SetLabelSize(0.045);
+h2_beta_vs_energy_corr_sec0->GetYaxis()->SetTitleSize(0.045);
+
+TH2D* h2_beta_vs_energy_corr_sec1;
+sprintf(hist_name,"Beta vs Calibrated Energy beta corrected,section1");
+h2_beta_vs_energy_corr_sec1 = new TH2D(hist_name,hist_name,500,0.73,0.83,950,0,450000);
+h2_beta_vs_energy_corr_sec1->GetXaxis()->SetTitle("Beta");
+h2_beta_vs_energy_corr_sec1->GetYaxis()->SetTitle("Calibrated Energy [a.u.]");
+h2_beta_vs_energy_corr_sec1->GetXaxis()->CenterTitle(true);
+h2_beta_vs_energy_corr_sec1->GetYaxis()->CenterTitle(true);
+h2_beta_vs_energy_corr_sec1->GetYaxis()->SetLabelSize(0.045);
+h2_beta_vs_energy_corr_sec1->GetYaxis()->SetTitleSize(0.045);
+
+TH2D* h2_beta_vs_energy_corr_sec2;
+sprintf(hist_name,"Beta vs Calibrated Energy beta corrected,section2");
+h2_beta_vs_energy_corr_sec2 = new TH2D(hist_name,hist_name,500,0.73,0.83,950,0,450000);
+h2_beta_vs_energy_corr_sec2->GetXaxis()->SetTitle("Beta");
+h2_beta_vs_energy_corr_sec2->GetYaxis()->SetTitle("Calibrated Energy [a.u.]");
+h2_beta_vs_energy_corr_sec2->GetXaxis()->CenterTitle(true);
+h2_beta_vs_energy_corr_sec2->GetYaxis()->CenterTitle(true);
+h2_beta_vs_energy_corr_sec2->GetYaxis()->SetLabelSize(0.045);
+h2_beta_vs_energy_corr_sec2->GetYaxis()->SetTitleSize(0.045);
+
+TH2D* h2_beta_vs_energy_corr_sec3;
+sprintf(hist_name,"Beta vs Calibrated Energy beta corrected,section3");
+h2_beta_vs_energy_corr_sec3 = new TH2D(hist_name,hist_name,500,0.73,0.83,950,0,450000);
+h2_beta_vs_energy_corr_sec3->GetXaxis()->SetTitle("Beta");
+h2_beta_vs_energy_corr_sec3->GetYaxis()->SetTitle("Calibrated Energy [a.u.]");
+h2_beta_vs_energy_corr_sec3->GetXaxis()->CenterTitle(true);
+h2_beta_vs_energy_corr_sec3->GetYaxis()->CenterTitle(true);
+h2_beta_vs_energy_corr_sec3->GetYaxis()->SetLabelSize(0.045);
+h2_beta_vs_energy_corr_sec3->GetYaxis()->SetTitleSize(0.045);
+//TF1* beta_func = new TF1("beta_func","198059*(TMath::Power(x,-5./3.)) + 32590.6");
+//const static double mean_ene = 324231.;
+const static double mean_ene = 250000.;
+TF1* beta_func_sec0 = new TF1("beta_func_sec0","111559*(TMath::Power(x,-5./3.)) + 35942.6");
+TF1* beta_func_sec1 = new TF1("beta_func_sec1","119028*(TMath::Power(x,-5./3.)) + 43631");
+TF1* beta_func_sec2 = new TF1("beta_func_sec2","107890*(TMath::Power(x,-5./3.)) + 47938.4");
+TF1* beta_func_sec3 = new TF1("beta_func_sec3","110713*(TMath::Power(x,-5./3.)) + 44166.2");
 
 TH2D* h2_x_music_vs_energy_messel;
 sprintf(hist_name,"Position on 11th anode in music vs Calibrated Energy messel");
@@ -99,6 +197,26 @@ h2_x_music_vs_energy_messel->GetYaxis()->CenterTitle(true);
 h2_x_music_vs_energy_messel->GetYaxis()->SetLabelSize(0.045);
 h2_x_music_vs_energy_messel->GetYaxis()->SetTitleSize(0.045);
 
+TH2D* h2_x_music_vs_energy_messel_sec0;
+sprintf(hist_name,"Position on 11th anode in music vs Calibrated Energy messel,section0");
+h2_x_music_vs_energy_messel_sec0 = new TH2D(hist_name,hist_name,600,0.,120,950,0,450000);
+h2_x_music_vs_energy_messel_sec0->GetXaxis()->SetTitle("position Messel side");
+h2_x_music_vs_energy_messel_sec0->GetYaxis()->SetTitle("Calibrated Energy [a.u.]");
+h2_x_music_vs_energy_messel_sec0->GetXaxis()->CenterTitle(true);
+h2_x_music_vs_energy_messel_sec0->GetYaxis()->CenterTitle(true);
+h2_x_music_vs_energy_messel_sec0->GetYaxis()->SetLabelSize(0.045);
+h2_x_music_vs_energy_messel_sec0->GetYaxis()->SetTitleSize(0.045);
+
+TH2D* h2_x_music_vs_energy_messel_sec1;
+sprintf(hist_name,"Position on 11th anode in music vs Calibrated Energy messel,section1");
+h2_x_music_vs_energy_messel_sec1 = new TH2D(hist_name,hist_name,600,0.,120,950,0,450000);
+h2_x_music_vs_energy_messel_sec1->GetXaxis()->SetTitle("position Messel side");
+h2_x_music_vs_energy_messel_sec1->GetYaxis()->SetTitle("Calibrated Energy [a.u.]");
+h2_x_music_vs_energy_messel_sec1->GetXaxis()->CenterTitle(true);
+h2_x_music_vs_energy_messel_sec1->GetYaxis()->CenterTitle(true);
+h2_x_music_vs_energy_messel_sec1->GetYaxis()->SetLabelSize(0.045);
+h2_x_music_vs_energy_messel_sec1->GetYaxis()->SetTitleSize(0.045);
+
 TH2D* h2_x_music_vs_energy_messel_corr;
 sprintf(hist_name,"Position on 11th anode in music vs Calibrated Energy messel corrected");
 h2_x_music_vs_energy_messel_corr = new TH2D(hist_name,hist_name,600,0.,120,950,0,450000);
@@ -108,6 +226,186 @@ h2_x_music_vs_energy_messel_corr->GetXaxis()->CenterTitle(true);
 h2_x_music_vs_energy_messel_corr->GetYaxis()->CenterTitle(true);
 h2_x_music_vs_energy_messel_corr->GetYaxis()->SetLabelSize(0.045);
 h2_x_music_vs_energy_messel_corr->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_charge_music_corr_messel_only_beta;
+sprintf(hist_name,"Energy deposited TWIM, Messel side(section 0 & 1) only beta correction");
+h1_charge_music_corr_messel_only_beta = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_charge_music_corr_messel_only_beta->GetXaxis()->SetTitle("Cal. Energy TWIM Messel");
+h1_charge_music_corr_messel_only_beta->GetYaxis()->SetTitle("Counts");
+h1_charge_music_corr_messel_only_beta->GetXaxis()->CenterTitle(true);
+h1_charge_music_corr_messel_only_beta->GetYaxis()->CenterTitle(true);
+h1_charge_music_corr_messel_only_beta->GetYaxis()->SetLabelSize(0.045);
+h1_charge_music_corr_messel_only_beta->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_charge_music_corr_messel;
+sprintf(hist_name,"Energy deposited TWIM, Messel side(section 0 & 1)");
+h1_charge_music_corr_messel = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_charge_music_corr_messel->GetXaxis()->SetTitle("Cal. Energy TWIM Messel");
+h1_charge_music_corr_messel->GetYaxis()->SetTitle("Counts");
+h1_charge_music_corr_messel->GetXaxis()->CenterTitle(true);
+h1_charge_music_corr_messel->GetYaxis()->CenterTitle(true);
+h1_charge_music_corr_messel->GetYaxis()->SetLabelSize(0.045);
+h1_charge_music_corr_messel->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_charge_music_corr_sec0;
+sprintf(hist_name,"Energy deposited TWIM section0, beta and pos. corrected");
+h1_charge_music_corr_sec0 = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_charge_music_corr_sec0->GetXaxis()->SetTitle("Cal. Energy section0");
+h1_charge_music_corr_sec0->GetYaxis()->SetTitle("Counts");
+h1_charge_music_corr_sec0->GetXaxis()->CenterTitle(true);
+h1_charge_music_corr_sec0->GetYaxis()->CenterTitle(true);
+h1_charge_music_corr_sec0->GetYaxis()->SetLabelSize(0.045);
+h1_charge_music_corr_sec0->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_charge_music_corr_sec1;
+sprintf(hist_name,"Energy deposited TWIM section1, beta and pos. corrected");
+h1_charge_music_corr_sec1 = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_charge_music_corr_sec1->GetXaxis()->SetTitle("Cal. Energy section1");
+h1_charge_music_corr_sec1->GetYaxis()->SetTitle("Counts");
+h1_charge_music_corr_sec1->GetXaxis()->CenterTitle(true);
+h1_charge_music_corr_sec1->GetYaxis()->CenterTitle(true);
+h1_charge_music_corr_sec1->GetYaxis()->SetLabelSize(0.045);
+h1_charge_music_corr_sec1->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_charge_music_corr_sec2;
+sprintf(hist_name,"Energy deposited TWIM section2, beta and pos. corrected");
+h1_charge_music_corr_sec2 = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_charge_music_corr_sec2->GetXaxis()->SetTitle("Cal. Energy section2");
+h1_charge_music_corr_sec2->GetYaxis()->SetTitle("Counts");
+h1_charge_music_corr_sec2->GetXaxis()->CenterTitle(true);
+h1_charge_music_corr_sec2->GetYaxis()->CenterTitle(true);
+h1_charge_music_corr_sec2->GetYaxis()->SetLabelSize(0.045);
+h1_charge_music_corr_sec2->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_charge_music_corr_sec3;
+sprintf(hist_name,"Energy deposited TWIM section3, beta and pos. corrected");
+h1_charge_music_corr_sec3 = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_charge_music_corr_sec3->GetXaxis()->SetTitle("Cal. Energy section3");
+h1_charge_music_corr_sec3->GetYaxis()->SetTitle("Counts");
+h1_charge_music_corr_sec3->GetXaxis()->CenterTitle(true);
+h1_charge_music_corr_sec3->GetYaxis()->CenterTitle(true);
+h1_charge_music_corr_sec3->GetYaxis()->SetLabelSize(0.045);
+h1_charge_music_corr_sec3->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_charge_music_corr_messel_full_cal;
+sprintf(hist_name,"Energy deposited TWIM, Messel side(section 0 & 1) now fully calibrated");
+h1_charge_music_corr_messel_full_cal = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_charge_music_corr_messel_full_cal->GetXaxis()->SetTitle("Cal. Energy TWIM Messel");
+h1_charge_music_corr_messel_full_cal->GetYaxis()->SetTitle("Counts");
+h1_charge_music_corr_messel_full_cal->GetXaxis()->CenterTitle(true);
+h1_charge_music_corr_messel_full_cal->GetYaxis()->CenterTitle(true);
+h1_charge_music_corr_messel_full_cal->GetYaxis()->SetLabelSize(0.045);
+h1_charge_music_corr_messel_full_cal->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_charge_music_corr_messel_full_cal_pol;
+sprintf(hist_name,"Energy deposited TWIM, Messel side(section 0 & 1) now fully calibrated with pol");
+h1_charge_music_corr_messel_full_cal_pol = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_charge_music_corr_messel_full_cal_pol->GetXaxis()->SetTitle("Cal. Energy TWIM Messel");
+h1_charge_music_corr_messel_full_cal_pol->GetYaxis()->SetTitle("Counts");
+h1_charge_music_corr_messel_full_cal_pol->GetXaxis()->CenterTitle(true);
+h1_charge_music_corr_messel_full_cal_pol->GetYaxis()->CenterTitle(true);
+h1_charge_music_corr_messel_full_cal_pol->GetYaxis()->SetLabelSize(0.045);
+h1_charge_music_corr_messel_full_cal_pol->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_charge_music_corr_wix_only_beta;
+sprintf(hist_name,"Energy deposited TWIM, Wixhausen side(section 2 & 3) only beta correction");
+h1_charge_music_corr_wix_only_beta = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_charge_music_corr_wix_only_beta->GetXaxis()->SetTitle("Cal. Energy TWIM Wixhausen");
+h1_charge_music_corr_wix_only_beta->GetYaxis()->SetTitle("Counts");
+h1_charge_music_corr_wix_only_beta->GetXaxis()->CenterTitle(true);
+h1_charge_music_corr_wix_only_beta->GetYaxis()->CenterTitle(true);
+h1_charge_music_corr_wix_only_beta->GetYaxis()->SetLabelSize(0.045);
+h1_charge_music_corr_wix_only_beta->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_charge_music_corr_wix;
+sprintf(hist_name,"Energy deposited TWIM, Wixhausen side(section 2 & 3)");
+h1_charge_music_corr_wix = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_charge_music_corr_wix->GetXaxis()->SetTitle("Cal. Energy TWIM Wixhausen");
+h1_charge_music_corr_wix->GetYaxis()->SetTitle("Counts");
+h1_charge_music_corr_wix->GetXaxis()->CenterTitle(true);
+h1_charge_music_corr_wix->GetYaxis()->CenterTitle(true);
+h1_charge_music_corr_wix->GetYaxis()->SetLabelSize(0.045);
+h1_charge_music_corr_wix->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_charge_music_corr_wix_full_cal;
+sprintf(hist_name,"Energy deposited TWIM, Wixhausen side(section 2 & 3) now fully calibrated");
+h1_charge_music_corr_wix_full_cal = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_charge_music_corr_wix_full_cal->GetXaxis()->SetTitle("Cal. Energy TWIM Wixhausen");
+h1_charge_music_corr_wix_full_cal->GetYaxis()->SetTitle("Counts");
+h1_charge_music_corr_wix_full_cal->GetXaxis()->CenterTitle(true);
+h1_charge_music_corr_wix_full_cal->GetYaxis()->CenterTitle(true);
+h1_charge_music_corr_wix_full_cal->GetYaxis()->SetLabelSize(0.045);
+h1_charge_music_corr_wix_full_cal->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_charge_music_corr_wix_full_cal_pol;
+sprintf(hist_name,"Energy deposited TWIM, Wixhausen side(section 2 & 3) now fully calibrated with pol");
+h1_charge_music_corr_wix_full_cal_pol = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_charge_music_corr_wix_full_cal_pol->GetXaxis()->SetTitle("Cal. Energy TWIM Wixhausen");
+h1_charge_music_corr_wix_full_cal_pol->GetYaxis()->SetTitle("Counts");
+h1_charge_music_corr_wix_full_cal_pol->GetXaxis()->CenterTitle(true);
+h1_charge_music_corr_wix_full_cal_pol->GetYaxis()->CenterTitle(true);
+h1_charge_music_corr_wix_full_cal_pol->GetYaxis()->SetLabelSize(0.045);
+h1_charge_music_corr_wix_full_cal_pol->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_charge_music_corr_sum;
+sprintf(hist_name,"Energy deposited in TWIM, summed up, beta and pos. calibrated");
+h1_charge_music_corr_sum = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_charge_music_corr_sum->GetXaxis()->SetTitle("Cal. Energy TWIM");
+h1_charge_music_corr_sum->GetYaxis()->SetTitle("Counts");
+h1_charge_music_corr_sum->GetXaxis()->CenterTitle(true);
+h1_charge_music_corr_sum->GetYaxis()->CenterTitle(true);
+h1_charge_music_corr_sum->GetYaxis()->SetLabelSize(0.045);
+h1_charge_music_corr_sum->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_charge_music_corr_sum_only_beta;
+sprintf(hist_name,"Energy deposited in TWIM, summed up, only beta corrected");
+h1_charge_music_corr_sum_only_beta = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_charge_music_corr_sum_only_beta->GetXaxis()->SetTitle("Cal. Energy TWIM");
+h1_charge_music_corr_sum_only_beta->GetYaxis()->SetTitle("Counts");
+h1_charge_music_corr_sum_only_beta->GetXaxis()->CenterTitle(true);
+h1_charge_music_corr_sum_only_beta->GetYaxis()->CenterTitle(true);
+h1_charge_music_corr_sum_only_beta->GetYaxis()->SetLabelSize(0.045);
+h1_charge_music_corr_sum_only_beta->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_charge_music_corr_sum_only_messel;
+sprintf(hist_name,"Energy deposited in TWIM, summed up, beta and pos. calibrated only messel side events");
+h1_charge_music_corr_sum_only_messel = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_charge_music_corr_sum_only_messel->GetXaxis()->SetTitle("Cal. Energy TWIM");
+h1_charge_music_corr_sum_only_messel->GetYaxis()->SetTitle("Counts");
+h1_charge_music_corr_sum_only_messel->GetXaxis()->CenterTitle(true);
+h1_charge_music_corr_sum_only_messel->GetYaxis()->CenterTitle(true);
+h1_charge_music_corr_sum_only_messel->GetYaxis()->SetLabelSize(0.045);
+h1_charge_music_corr_sum_only_messel->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_charge_music_corr_sum_only_wix;
+sprintf(hist_name,"Energy deposited in TWIM, summed up, beta and pos. calibrated only wixhausen side events");
+h1_charge_music_corr_sum_only_wix = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_charge_music_corr_sum_only_wix->GetXaxis()->SetTitle("Cal. Energy TWIM");
+h1_charge_music_corr_sum_only_wix->GetYaxis()->SetTitle("Counts");
+h1_charge_music_corr_sum_only_wix->GetXaxis()->CenterTitle(true);
+h1_charge_music_corr_sum_only_wix->GetYaxis()->CenterTitle(true);
+h1_charge_music_corr_sum_only_wix->GetYaxis()->SetLabelSize(0.045);
+h1_charge_music_corr_sum_only_wix->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_charge_music_corr_sum_full_cal;
+sprintf(hist_name,"Energy deposited in TWIM, summed up, beta and pos. calibrated, fully calibrated wixh, messel");
+h1_charge_music_corr_sum_full_cal = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_charge_music_corr_sum_full_cal->GetXaxis()->SetTitle("Cal. Energy TWIM");
+h1_charge_music_corr_sum_full_cal->GetYaxis()->SetTitle("Counts");
+h1_charge_music_corr_sum_full_cal->GetXaxis()->CenterTitle(true);
+h1_charge_music_corr_sum_full_cal->GetYaxis()->CenterTitle(true);
+h1_charge_music_corr_sum_full_cal->GetYaxis()->SetLabelSize(0.045);
+h1_charge_music_corr_sum_full_cal->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_charge_music_corr_sum_full_cal_pol;
+sprintf(hist_name,"Energy deposited in TWIM, summed up, beta and pos. calibrated, fully calibrated wixh, messel with pol");
+h1_charge_music_corr_sum_full_cal_pol = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_charge_music_corr_sum_full_cal_pol->GetXaxis()->SetTitle("Cal. Energy TWIM");
+h1_charge_music_corr_sum_full_cal_pol->GetYaxis()->SetTitle("Counts");
+h1_charge_music_corr_sum_full_cal_pol->GetXaxis()->CenterTitle(true);
+h1_charge_music_corr_sum_full_cal_pol->GetYaxis()->CenterTitle(true);
+h1_charge_music_corr_sum_full_cal_pol->GetYaxis()->SetLabelSize(0.045);
+h1_charge_music_corr_sum_full_cal_pol->GetYaxis()->SetTitleSize(0.045);
 
 TH2D* h2_x_music_vs_energy_wix;
 sprintf(hist_name,"Position on 11th anode in music vs Calibrated Energy Wixhausen");
@@ -119,6 +417,26 @@ h2_x_music_vs_energy_wix->GetYaxis()->CenterTitle(true);
 h2_x_music_vs_energy_wix->GetYaxis()->SetLabelSize(0.045);
 h2_x_music_vs_energy_wix->GetYaxis()->SetTitleSize(0.045);
 
+TH2D* h2_x_music_vs_energy_wix_sec2;
+sprintf(hist_name,"Position on 11th anode in music vs Calibrated Energy Wixhausen,section2");
+h2_x_music_vs_energy_wix_sec2 = new TH2D(hist_name,hist_name,600,-120,0.,950,0,450000);
+h2_x_music_vs_energy_wix_sec2->GetXaxis()->SetTitle("position Messel side");
+h2_x_music_vs_energy_wix_sec2->GetYaxis()->SetTitle("Calibrated Energy [a.u.]");
+h2_x_music_vs_energy_wix_sec2->GetXaxis()->CenterTitle(true);
+h2_x_music_vs_energy_wix_sec2->GetYaxis()->CenterTitle(true);
+h2_x_music_vs_energy_wix_sec2->GetYaxis()->SetLabelSize(0.045);
+h2_x_music_vs_energy_wix_sec2->GetYaxis()->SetTitleSize(0.045);
+
+TH2D* h2_x_music_vs_energy_wix_sec3;
+sprintf(hist_name,"Position on 11th anode in music vs Calibrated Energy Wixhausen,section3");
+h2_x_music_vs_energy_wix_sec3 = new TH2D(hist_name,hist_name,600,-120,0.,950,0,450000);
+h2_x_music_vs_energy_wix_sec3->GetXaxis()->SetTitle("position Messel side");
+h2_x_music_vs_energy_wix_sec3->GetYaxis()->SetTitle("Calibrated Energy [a.u.]");
+h2_x_music_vs_energy_wix_sec3->GetXaxis()->CenterTitle(true);
+h2_x_music_vs_energy_wix_sec3->GetYaxis()->CenterTitle(true);
+h2_x_music_vs_energy_wix_sec3->GetYaxis()->SetLabelSize(0.045);
+h2_x_music_vs_energy_wix_sec3->GetYaxis()->SetTitleSize(0.045);
+
 TH2D* h2_x_music_vs_energy_wix_corr;
 sprintf(hist_name,"Position on 11th anode in music vs Calibrated Energy Wixhausen corrected");
 h2_x_music_vs_energy_wix_corr = new TH2D(hist_name,hist_name,600,-120,0.,950,0,450000);
@@ -128,6 +446,158 @@ h2_x_music_vs_energy_wix_corr->GetXaxis()->CenterTitle(true);
 h2_x_music_vs_energy_wix_corr->GetYaxis()->CenterTitle(true);
 h2_x_music_vs_energy_wix_corr->GetYaxis()->SetLabelSize(0.045);
 h2_x_music_vs_energy_wix_corr->GetYaxis()->SetTitleSize(0.045);
+
+//messel side comparison fully corrected charges!!
+TH2D* h2_x_energy_vs_energy_messel_corr;
+sprintf(hist_name,"Charge Section 0 vs Charge Section 1 in Messel");
+h2_x_energy_vs_energy_messel_corr = new TH2D(hist_name,hist_name,1000,-10,40,1000,-10,40);
+h2_x_energy_vs_energy_messel_corr->GetXaxis()->SetTitle("Charge Section 0");
+h2_x_energy_vs_energy_messel_corr->GetYaxis()->SetTitle("Charge Section 1");
+h2_x_energy_vs_energy_messel_corr->GetXaxis()->CenterTitle(true);
+h2_x_energy_vs_energy_messel_corr->GetYaxis()->CenterTitle(true);
+h2_x_energy_vs_energy_messel_corr->GetYaxis()->SetLabelSize(0.045);
+h2_x_energy_vs_energy_messel_corr->GetYaxis()->SetTitleSize(0.045);
+
+TH2D* h2_charge_sum_vs_diff_messel_corr;
+sprintf(hist_name,"Sum Charge of Section 0&1 vs difference in Messel (section1-section0)");
+h2_charge_sum_vs_diff_messel_corr = new TH2D(hist_name,hist_name,600,-15,15,800,10,50);
+h2_charge_sum_vs_diff_messel_corr->GetXaxis()->SetTitle("Charge Difference");
+h2_charge_sum_vs_diff_messel_corr->GetYaxis()->SetTitle("Charge Sum");
+h2_charge_sum_vs_diff_messel_corr->GetXaxis()->CenterTitle(true);
+h2_charge_sum_vs_diff_messel_corr->GetYaxis()->CenterTitle(true);
+h2_charge_sum_vs_diff_messel_corr->GetYaxis()->SetLabelSize(0.045);
+h2_charge_sum_vs_diff_messel_corr->GetYaxis()->SetTitleSize(0.045);
+
+//wixhausen side comparison fully corrected charges!!
+TH2D* h2_x_energy_vs_energy_wix_corr;
+sprintf(hist_name,"Charge Section 2 vs Charge Section 3 in Wixhausen");
+h2_x_energy_vs_energy_wix_corr = new TH2D(hist_name,hist_name,1000,-10,40,1000,-10,40);
+h2_x_energy_vs_energy_wix_corr->GetXaxis()->SetTitle("Charge Section 2");
+h2_x_energy_vs_energy_wix_corr->GetYaxis()->SetTitle("Charge Section 3");
+h2_x_energy_vs_energy_wix_corr->GetXaxis()->CenterTitle(true);
+h2_x_energy_vs_energy_wix_corr->GetYaxis()->CenterTitle(true);
+h2_x_energy_vs_energy_wix_corr->GetYaxis()->SetLabelSize(0.045);
+h2_x_energy_vs_energy_wix_corr->GetYaxis()->SetTitleSize(0.045);
+
+TH2D* h2_charge_sum_vs_diff_wix_corr;
+sprintf(hist_name,"Sum Charge of Section 2&3 vs difference in Wixhausen(section3-section2)");
+h2_charge_sum_vs_diff_wix_corr = new TH2D(hist_name,hist_name,600,-15,15,800,10,50);
+h2_charge_sum_vs_diff_wix_corr->GetXaxis()->SetTitle("Charge Difference");
+h2_charge_sum_vs_diff_wix_corr->GetYaxis()->SetTitle("Charge Sum");
+h2_charge_sum_vs_diff_wix_corr->GetXaxis()->CenterTitle(true);
+h2_charge_sum_vs_diff_wix_corr->GetYaxis()->CenterTitle(true);
+h2_charge_sum_vs_diff_wix_corr->GetYaxis()->SetLabelSize(0.045);
+h2_charge_sum_vs_diff_wix_corr->GetYaxis()->SetTitleSize(0.045);
+
+
+//now fitting with Z = [0] +[1]*sqrt[E] +[2]*E
+//wixhausen
+TH1D* h1_one_charge_wixh_sqrt;
+sprintf(hist_name,"Energy deposited in TWIM on wixhausen, beta and pos. calibrated, sqrt-fit");
+h1_one_charge_wixh_sqrt = new TH1D(hist_name,hist_name,2000,0,200);
+h1_one_charge_wixh_sqrt->GetXaxis()->SetTitle("Cal. Energy TWIM");
+h1_one_charge_wixh_sqrt->GetYaxis()->SetTitle("Counts");
+h1_one_charge_wixh_sqrt->GetXaxis()->CenterTitle(true);
+h1_one_charge_wixh_sqrt->GetYaxis()->CenterTitle(true);
+h1_one_charge_wixh_sqrt->GetYaxis()->SetLabelSize(0.045);
+h1_one_charge_wixh_sqrt->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_sum_charge_wixh_sqrt;
+sprintf(hist_name,"Energy deposited in TWIM on wixhausen SUM (for both fragments on wix), beta and pos. calibrated, sqrt-fit");
+h1_sum_charge_wixh_sqrt = new TH1D(hist_name,hist_name,2000,0,200);
+h1_sum_charge_wixh_sqrt->GetXaxis()->SetTitle("Cal. Energy TWIM");
+h1_sum_charge_wixh_sqrt->GetYaxis()->SetTitle("Counts");
+h1_sum_charge_wixh_sqrt->GetXaxis()->CenterTitle(true);
+h1_sum_charge_wixh_sqrt->GetYaxis()->CenterTitle(true);
+h1_sum_charge_wixh_sqrt->GetYaxis()->SetLabelSize(0.045);
+h1_sum_charge_wixh_sqrt->GetYaxis()->SetTitleSize(0.045);
+
+//now sum up without correction
+TH1D* h1_sum_charge_wixh;
+sprintf(hist_name,"Energy deposited in TWIM on wixhausen SUM (for both fragments on wix), beta and pos. calibrated, no fit");
+h1_sum_charge_wixh = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_sum_charge_wixh->GetXaxis()->SetTitle("Cal. Energy TWIM");
+h1_sum_charge_wixh->GetYaxis()->SetTitle("Counts");
+h1_sum_charge_wixh->GetXaxis()->CenterTitle(true);
+h1_sum_charge_wixh->GetYaxis()->CenterTitle(true);
+h1_sum_charge_wixh->GetYaxis()->SetLabelSize(0.045);
+h1_sum_charge_wixh->GetYaxis()->SetTitleSize(0.045);
+
+
+//messel
+TH1D* h1_one_charge_messel_sqrt;
+sprintf(hist_name,"Energy deposited in TWIM on messel, beta and pos. calibrated, sqrt-fit");
+h1_one_charge_messel_sqrt = new TH1D(hist_name,hist_name,2000,0,200);
+h1_one_charge_messel_sqrt->GetXaxis()->SetTitle("Cal. Energy TWIM");
+h1_one_charge_messel_sqrt->GetYaxis()->SetTitle("Counts");
+h1_one_charge_messel_sqrt->GetXaxis()->CenterTitle(true);
+h1_one_charge_messel_sqrt->GetYaxis()->CenterTitle(true);
+h1_one_charge_messel_sqrt->GetYaxis()->SetLabelSize(0.045);
+h1_one_charge_messel_sqrt->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_sum_charge_messel_sqrt;
+sprintf(hist_name,"Energy deposited in TWIM on messel SUM (for both fragments on wix), beta and pos. calibrated, sqrt-fit");
+h1_sum_charge_messel_sqrt = new TH1D(hist_name,hist_name,2000,0,200);
+h1_sum_charge_messel_sqrt->GetXaxis()->SetTitle("Cal. Energy TWIM");
+h1_sum_charge_messel_sqrt->GetYaxis()->SetTitle("Counts");
+h1_sum_charge_messel_sqrt->GetXaxis()->CenterTitle(true);
+h1_sum_charge_messel_sqrt->GetYaxis()->CenterTitle(true);
+h1_sum_charge_messel_sqrt->GetYaxis()->SetLabelSize(0.045);
+h1_sum_charge_messel_sqrt->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_sum_charge_messel;
+sprintf(hist_name,"Energy deposited in TWIM on messel SUM (for both fragments on wix), beta and pos. calibrated, no fit");
+h1_sum_charge_messel = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_sum_charge_messel->GetXaxis()->SetTitle("Cal. Energy TWIM");
+h1_sum_charge_messel->GetYaxis()->SetTitle("Counts");
+h1_sum_charge_messel->GetXaxis()->CenterTitle(true);
+h1_sum_charge_messel->GetYaxis()->CenterTitle(true);
+h1_sum_charge_messel->GetYaxis()->SetLabelSize(0.045);
+h1_sum_charge_messel->GetYaxis()->SetTitleSize(0.045);
+
+
+//now check that the sections are precalibrated... just check.... before beta and pos correction
+
+TH1D* h1_energy_section0;
+sprintf(hist_name,"Energy deposited in TWIM SECTION 0 before pos,beta cal");
+h1_energy_section0 = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_energy_section0->GetXaxis()->SetTitle("Energy TWIM SECTION 0");
+h1_energy_section0->GetYaxis()->SetTitle("Counts");
+h1_energy_section0->GetXaxis()->CenterTitle(true);
+h1_energy_section0->GetYaxis()->CenterTitle(true);
+h1_energy_section0->GetYaxis()->SetLabelSize(0.045);
+h1_energy_section0->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_energy_section1;
+sprintf(hist_name,"Energy deposited in TWIM SECTION 1 before pos,beta cal");
+h1_energy_section1 = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_energy_section1->GetXaxis()->SetTitle("Energy TWIM SECTION 1");
+h1_energy_section1->GetYaxis()->SetTitle("Counts");
+h1_energy_section1->GetXaxis()->CenterTitle(true);
+h1_energy_section1->GetYaxis()->CenterTitle(true);
+h1_energy_section1->GetYaxis()->SetLabelSize(0.045);
+h1_energy_section1->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_energy_section2;
+sprintf(hist_name,"Energy deposited in TWIM SECTION 2 before pos,beta cal");
+h1_energy_section2 = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_energy_section2->GetXaxis()->SetTitle("Energy TWIM SECTION 2");
+h1_energy_section2->GetYaxis()->SetTitle("Counts");
+h1_energy_section2->GetXaxis()->CenterTitle(true);
+h1_energy_section2->GetYaxis()->CenterTitle(true);
+h1_energy_section2->GetYaxis()->SetLabelSize(0.045);
+h1_energy_section2->GetYaxis()->SetTitleSize(0.045);
+
+TH1D* h1_energy_section3;
+sprintf(hist_name,"Energy deposited in TWIM SECTION 3 before pos,beta cal");
+h1_energy_section3 = new TH1D(hist_name,hist_name,6000,0,600000);
+h1_energy_section3->GetXaxis()->SetTitle("Energy TWIM SECTION 3");
+h1_energy_section3->GetYaxis()->SetTitle("Counts");
+h1_energy_section3->GetXaxis()->CenterTitle(true);
+h1_energy_section3->GetYaxis()->CenterTitle(true);
+h1_energy_section3->GetYaxis()->SetLabelSize(0.045);
+h1_energy_section3->GetYaxis()->SetTitleSize(0.045);
+
 //deltax vs xal for section 0
 TH2D* h2_deltax_xal_sec0[16];
 for (Int_t i = 0; i < 16; i++){
@@ -364,6 +834,64 @@ while(fin4.peek()!=EOF) {
 	
 	temp_vec.clear();
 }
+
+//parameters for calibration of the position dependence of the energy side for the wixhausen and messel side
+fstream fin5;
+fin5.open("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/parameters/energy_position_calib_params.csv",ios::in);
+string line5, word5;
+vector<vector<double> > v_para_pos_energy;
+getline(fin5,line5);
+while(fin5.peek() != EOF){
+	getline(fin5,line5);
+	stringstream s(line5);
+	vector<double> temp_vec;
+	while (getline(s,word5,',')) { temp_vec.push_back(stod(word5));
+	}
+	v_para_pos_energy.push_back(temp_vec);
+	temp_vec.clear();
+}
+
+const double slope_wix = v_para_pos_energy[0][0];
+const double offset_wix = v_para_pos_energy[0][1];
+const double slope_messel = v_para_pos_energy[1][0];
+const double offset_messel = v_para_pos_energy[1][1];
+const double wix_c0 = v_para_pos_energy[0][0];
+const double wix_c1 = v_para_pos_energy[0][0];
+const double wix_c2 = v_para_pos_energy[0][0];
+const double wix_c3 = v_para_pos_energy[0][0];
+const double wix_c4 = v_para_pos_energy[0][0];
+const double wix_c5 = v_para_pos_energy[0][0];
+const double wix_c6 = v_para_pos_energy[0][0];
+const double wix_par0 = v_para_pos_energy[0][0];
+const double wix_par1 = v_para_pos_energy[0][1];
+const double wix_par2 = v_para_pos_energy[0][2];
+const double messel_par0 = v_para_pos_energy[1][0];
+const double messel_par1 = v_para_pos_energy[1][1];
+const double messel_par2 = v_para_pos_energy[1][2];
+
+const double messel_c0 = v_para_pos_energy[1][0];
+const double messel_c1 = v_para_pos_energy[1][1];
+const double messel_c2 = v_para_pos_energy[1][2];
+const double messel_c3 = v_para_pos_energy[1][3];
+const double messel_c4 = v_para_pos_energy[1][4];
+const double messel_c5 = v_para_pos_energy[1][5];
+const double messel_c6 = v_para_pos_energy[1][6];
+
+const double sec0_c0 = v_para_pos_energy[0][0];
+const double sec0_c1 = v_para_pos_energy[0][1];
+const double sec0_c2 = v_para_pos_energy[0][2];
+
+const double sec1_c0 = v_para_pos_energy[1][0];
+const double sec1_c1 = v_para_pos_energy[1][1];
+const double sec1_c2 = v_para_pos_energy[1][2];
+
+const double sec2_c0 = v_para_pos_energy[2][0];
+const double sec2_c1 = v_para_pos_energy[2][1];
+const double sec2_c2 = v_para_pos_energy[2][2];
+
+const double sec3_c0 = v_para_pos_energy[3][0];
+const double sec3_c1 = v_para_pos_energy[3][1];
+const double sec3_c2 = v_para_pos_energy[3][2];
 
 for(Long64_t i=0;i < nevents;i++){
 	Long64_t evtnr = i;
@@ -686,18 +1214,58 @@ for(Long64_t i=0;i < nevents;i++){
 			Double_t beta0 = ((full_path_sec0/time_of_flight_sec0)*pow(10,7))/299792458;
 			Double_t beta2 = ((full_path_sec2/time_of_flight_sec2)*pow(10,7))/299792458;
 			h2_beta_vs_energy->Fill(beta0,e_sum_sec_0);
-			h2_beta_vs_energy_corr->Fill(beta0,e_sum_sec_0*mean_ene/(beta_func->Eval(beta0)));
+			h2_beta_vs_energy_sec0->Fill(beta0,e_sum_sec_0);
+			h2_beta_vs_energy_corr->Fill(beta0,e_sum_sec_0*mean_ene/(beta_func_sec0->Eval(beta0)));
+			h2_beta_vs_energy_corr_sec0->Fill(beta0,e_sum_sec_0*mean_ene/(beta_func_sec0->Eval(beta0)));
 			h2_beta_vs_energy->Fill(beta2,e_sum_sec_2);
-			h2_beta_vs_energy_corr->Fill(beta2,e_sum_sec_2*mean_ene/(beta_func->Eval(beta2)));
-			h2_x_music_vs_energy_messel->Fill(y_sec0[7],e_sum_sec_0*mean_ene/(beta_func->Eval(beta0)));
-			h2_x_music_vs_energy_wix->Fill(y_sec2[7],e_sum_sec_2*mean_ene/(beta_func->Eval(beta2)));
+			h2_beta_vs_energy_sec2->Fill(beta2,e_sum_sec_2);
+			h2_beta_vs_energy_corr->Fill(beta2,e_sum_sec_2*mean_ene/(beta_func_sec2->Eval(beta2)));
+			h2_beta_vs_energy_corr_sec2->Fill(beta2,e_sum_sec_2*mean_ene/(beta_func_sec2->Eval(beta2)));
+			h2_x_music_vs_energy_messel->Fill(y_sec0[7],e_sum_sec_0*mean_ene/(beta_func_sec0->Eval(beta0)));
+			h2_x_music_vs_energy_messel_sec0->Fill(y_sec0[7],e_sum_sec_0*mean_ene/(beta_func_sec0->Eval(beta0)));
+			h2_x_music_vs_energy_wix->Fill(y_sec2[7],e_sum_sec_2*mean_ene/(beta_func_sec2->Eval(beta2)));
+			h2_x_music_vs_energy_wix_sec2->Fill(y_sec2[7],e_sum_sec_2*mean_ene/(beta_func_sec2->Eval(beta2)));
 			//now comes the final energy correction with positioning tspline
-			Double_t beta_corr_energy_sec0 = e_sum_sec_0*mean_ene/(beta_func->Eval(beta0));
-			Double_t beta_corr_energy_sec2 = e_sum_sec_2*mean_ene/(beta_func->Eval(beta2));
-			Double_t pos_corr_energy_sec0 = beta_corr_energy_sec0*200284/(spline_messel->Eval(y_sec0[7]));
-			Double_t pos_corr_energy_sec2 = beta_corr_energy_sec2*217303/(spline_wix->Eval(y_sec2[7]));
+			Double_t beta_corr_energy_sec0 = e_sum_sec_0*mean_ene/(beta_func_sec0->Eval(beta0));
+			Double_t beta_corr_energy_sec2 = e_sum_sec_2*mean_ene/(beta_func_sec2->Eval(beta2));
+			Double_t pos_corr_energy_sec0 = beta_corr_energy_sec0*mean_pos_sec0/(spline_messel_sec0->Eval(y_sec0[7]));
+			Double_t pos_corr_energy_sec2 = beta_corr_energy_sec2*mean_pos_sec2/(spline_wix_sec2->Eval(y_sec2[7]));
 			h2_x_music_vs_energy_wix_corr->Fill(y_sec2[7],pos_corr_energy_sec2);
 			h2_x_music_vs_energy_messel_corr->Fill(y_sec0[7],pos_corr_energy_sec0);
+			h1_charge_music_corr_messel->Fill(pos_corr_energy_sec0);
+			h1_charge_music_corr_wix->Fill(pos_corr_energy_sec2);
+			//best possible calibration....
+			h1_charge_music_corr_sec0->Fill(pos_corr_energy_sec0);
+			h1_charge_music_corr_sec2->Fill(pos_corr_energy_sec2);
+			h1_charge_music_corr_sum->Fill(pos_corr_energy_sec0+pos_corr_energy_sec2);
+			h1_charge_music_corr_messel_full_cal->Fill(pos_corr_energy_sec0*slope_messel + offset_messel);
+			h1_charge_music_corr_wix_full_cal->Fill(pos_corr_energy_sec2*slope_wix + offset_wix);
+			h1_charge_music_corr_sum_full_cal->Fill(pos_corr_energy_sec0*slope_messel + offset_messel+pos_corr_energy_sec2*slope_wix + offset_wix);
+			h1_charge_music_corr_wix_full_cal_pol->Fill(messel_c0 +messel_c1*pos_corr_energy_sec2+messel_c2*pow(pos_corr_energy_sec2,2)+messel_c3*pow(pos_corr_energy_sec2,3)+messel_c4*pow(pos_corr_energy_sec2,4)+messel_c5*pow(pos_corr_energy_sec2,5)+messel_c6*pow(pos_corr_energy_sec2,6));
+			h1_charge_music_corr_messel_full_cal_pol->Fill(pos_corr_energy_sec0);
+			h1_charge_music_corr_sum_full_cal_pol->Fill(messel_c0 +messel_c1*pos_corr_energy_sec2+messel_c2*pow(pos_corr_energy_sec2,2)+messel_c3*pow(pos_corr_energy_sec2,3)+messel_c4*pow(pos_corr_energy_sec2,4)+messel_c5*pow(pos_corr_energy_sec2,5)+messel_c6*pow(pos_corr_energy_sec2,6)+pos_corr_energy_sec0);
+			//plots only with beta correction:
+			h1_charge_music_corr_messel_only_beta->Fill(beta_corr_energy_sec0);
+			h1_charge_music_corr_wix_only_beta->Fill(beta_corr_energy_sec2);
+			h1_charge_music_corr_sum_only_beta->Fill(beta_corr_energy_sec0+beta_corr_energy_sec2);
+			//plot with sqrt fit
+			h1_one_charge_wixh_sqrt->Fill(wix_par0+ wix_par1*sqrt(pos_corr_energy_sec2)+wix_par2*pos_corr_energy_sec2);
+			h1_one_charge_messel_sqrt->Fill(messel_par0+ messel_par1*sqrt(pos_corr_energy_sec0)+ messel_par2*pos_corr_energy_sec0);
+ 			//check precalibrated state
+ 			h1_energy_section0->Fill(e_sum_sec_0);
+ 			h1_energy_section2->Fill(e_sum_sec_2);
+			
+			//if (pos_corr_energy_sec0 < 10 || pos_corr_energy_sec2 < 10){
+			//	cout << "this is eventnr:\t" << evtnr << endl; 
+			//	cout << "e_sum_sec_0:\t" << e_sum_sec_0 << endl;
+			//	cout << "e_sum_sec_2:\t" << e_sum_sec_2 << endl;
+			//	cout << "beta_corr_energy_sec0:\t" << beta_corr_energy_sec0 << endl;
+			//	cout << "beta_corr_energy_sec2:\t" << beta_corr_energy_sec2 << endl;
+			//	cout << "pos_corr_energy_sec0:\t" << pos_corr_energy_sec0 << endl;
+			//	cout << "pos_corr_energy_sec2:\t" << pos_corr_energy_sec2 << endl;
+			//	cout << "spine eval wix:\t" << spline_wix->Eval(y_sec2[7]) << endl;
+			//	cout << "spline eval messel:\t" << spline_messel->Eval(y_sec0[7]) << endl;
+			//	}
 			
 				}
 			delete  gr_sec0;
@@ -756,18 +1324,57 @@ for(Long64_t i=0;i < nevents;i++){
 			Double_t beta3 = ((full_path_sec3/time_of_flight_sec3)*pow(10,7))/299792458;
 			Double_t beta1 = ((full_path_sec1/time_of_flight_sec1)*pow(10,7))/299792458;	
 			h2_beta_vs_energy->Fill(beta3,e_sum_sec_3);
-			h2_beta_vs_energy_corr->Fill(beta3,e_sum_sec_3*mean_ene/(beta_func->Eval(beta3)));
+			h2_beta_vs_energy_sec3->Fill(beta3,e_sum_sec_3);
+			h2_beta_vs_energy_corr->Fill(beta3,e_sum_sec_3*mean_ene/(beta_func_sec3->Eval(beta3)));
+			h2_beta_vs_energy_corr_sec3->Fill(beta3,e_sum_sec_3*mean_ene/(beta_func_sec3->Eval(beta3)));
 			h2_beta_vs_energy->Fill(beta1,e_sum_sec_1);
-			h2_beta_vs_energy_corr->Fill(beta1,e_sum_sec_1*mean_ene/(beta_func->Eval(beta1)));
-			h2_x_music_vs_energy_messel->Fill(y_sec1[7],e_sum_sec_1*mean_ene/(beta_func->Eval(beta1)));
-			h2_x_music_vs_energy_wix->Fill(y_sec3[7],e_sum_sec_3*mean_ene/(beta_func->Eval(beta3)));
+			h2_beta_vs_energy_sec1->Fill(beta1,e_sum_sec_1);
+			h2_beta_vs_energy_corr->Fill(beta1,e_sum_sec_1*mean_ene/(beta_func_sec1->Eval(beta1)));
+			h2_beta_vs_energy_corr_sec1->Fill(beta1,e_sum_sec_1*mean_ene/(beta_func_sec1->Eval(beta1)));
+			h2_x_music_vs_energy_messel->Fill(y_sec1[7],e_sum_sec_1*mean_ene/(beta_func_sec1->Eval(beta1)));
+			h2_x_music_vs_energy_messel_sec1->Fill(y_sec1[7],e_sum_sec_1*mean_ene/(beta_func_sec1->Eval(beta1)));
+			h2_x_music_vs_energy_wix->Fill(y_sec3[7],e_sum_sec_3*mean_ene/(beta_func_sec3->Eval(beta3)));
+			h2_x_music_vs_energy_wix_sec3->Fill(y_sec3[7],e_sum_sec_3*mean_ene/(beta_func_sec3->Eval(beta3)));
 			//now comes the final energy correction with positioning tspline
-			Double_t beta_corr_energy_sec3 = e_sum_sec_3*mean_ene/(beta_func->Eval(beta3));
-			Double_t beta_corr_energy_sec1 = e_sum_sec_1*mean_ene/(beta_func->Eval(beta1));
-			Double_t pos_corr_energy_sec3 = beta_corr_energy_sec3*217303/(spline_wix->Eval(y_sec3[7]));
-			Double_t pos_corr_energy_sec1 = beta_corr_energy_sec1*200284/(spline_messel->Eval(y_sec1[7]));
+			Double_t beta_corr_energy_sec3 = e_sum_sec_3*mean_ene/(beta_func_sec3->Eval(beta3));
+			Double_t beta_corr_energy_sec1 = e_sum_sec_1*mean_ene/(beta_func_sec1->Eval(beta1));
+			Double_t pos_corr_energy_sec3 = beta_corr_energy_sec3*mean_pos_sec3/(spline_wix_sec3->Eval(y_sec3[7]));
+			Double_t pos_corr_energy_sec1 = beta_corr_energy_sec1*mean_pos_sec1/(spline_messel_sec1->Eval(y_sec1[7]));
 			h2_x_music_vs_energy_messel_corr->Fill(y_sec1[7],pos_corr_energy_sec1);
 			h2_x_music_vs_energy_wix_corr->Fill(y_sec3[7],pos_corr_energy_sec3);
+			h1_charge_music_corr_messel->Fill(pos_corr_energy_sec1);
+			h1_charge_music_corr_wix->Fill(pos_corr_energy_sec3);
+			//best possible calibration ....
+			h1_charge_music_corr_sec1->Fill(pos_corr_energy_sec1);
+			h1_charge_music_corr_sec3->Fill(pos_corr_energy_sec3);
+			h1_charge_music_corr_sum->Fill(pos_corr_energy_sec1+pos_corr_energy_sec3);
+			h1_charge_music_corr_messel_full_cal->Fill(pos_corr_energy_sec1*slope_messel + offset_messel);
+			h1_charge_music_corr_wix_full_cal->Fill(pos_corr_energy_sec3*slope_wix + offset_wix);
+			h1_charge_music_corr_sum_full_cal->Fill(pos_corr_energy_sec1*slope_messel + offset_messel+pos_corr_energy_sec3*slope_wix + offset_wix);
+			h1_charge_music_corr_wix_full_cal_pol->Fill(messel_c0 +messel_c1*pos_corr_energy_sec3+messel_c2*pow(pos_corr_energy_sec3,2)+messel_c3*pow(pos_corr_energy_sec3,3)+messel_c4*pow(pos_corr_energy_sec3,4)+messel_c5*pow(pos_corr_energy_sec3,5)+messel_c6*pow(pos_corr_energy_sec3,6));
+			h1_charge_music_corr_messel_full_cal_pol->Fill(pos_corr_energy_sec1);
+			h1_charge_music_corr_sum_full_cal_pol->Fill(messel_c0 +messel_c1*pos_corr_energy_sec3+messel_c2*pow(pos_corr_energy_sec3,2)+messel_c3*pow(pos_corr_energy_sec3,3)+messel_c4*pow(pos_corr_energy_sec3,4)+messel_c5*pow(pos_corr_energy_sec3,5)+messel_c6*pow(pos_corr_energy_sec3,6)+pos_corr_energy_sec1);
+			//plots only with beta correction:
+			h1_charge_music_corr_messel_only_beta->Fill(beta_corr_energy_sec1);
+			h1_charge_music_corr_wix_only_beta->Fill(beta_corr_energy_sec3);
+			h1_charge_music_corr_sum_only_beta->Fill(beta_corr_energy_sec1+beta_corr_energy_sec3);	
+			//plot with sqrt fit
+			h1_one_charge_wixh_sqrt->Fill(wix_par0+ wix_par1*sqrt(pos_corr_energy_sec3)+wix_par2*pos_corr_energy_sec3);
+			h1_one_charge_messel_sqrt->Fill(messel_par0+ messel_par1*sqrt(pos_corr_energy_sec1)+ messel_par2*pos_corr_energy_sec1);
+ 			//check precalibrated state
+ 			h1_energy_section1->Fill(e_sum_sec_1);
+ 			h1_energy_section3->Fill(e_sum_sec_3);
+			//if (pos_corr_energy_sec1 < 10 || pos_corr_energy_sec3 < 10){
+			//	cout << "this is eventnr:\t" << evtnr << endl; 
+			//	cout << "e_sum_sec_1:\t" << e_sum_sec_1 << endl;
+			//	cout << "e_sum_sec_3:\t" << e_sum_sec_3 << endl;
+			//	cout << "beta_corr_energy_sec1:\t" << beta_corr_energy_sec1 << endl;
+			//	cout << "beta_corr_energy_sec3:\t" << beta_corr_energy_sec3 << endl;
+			//	cout << "pos_corr_energy_sec1:\t" << pos_corr_energy_sec1 << endl;
+			//	cout << "pos_corr_energy_sec3:\t" << pos_corr_energy_sec3 << endl;
+			//	cout << "spine eval wix:\t" << spline_wix->Eval(y_sec3[7]) << endl;
+			//	cout << "spline eval messel:\t" << spline_messel->Eval(y_sec1[7]) << endl;
+			//	}
 			
 			
                 }
@@ -826,18 +1433,64 @@ for(Long64_t i=0;i < nevents;i++){
 	    		Double_t beta0 = ((full_path_sec0/time_of_flight_sec0)*pow(10,7))/299792458;
 			Double_t beta1 = ((full_path_sec1/time_of_flight_sec1)*pow(10,7))/299792458;
 			h2_beta_vs_energy->Fill(beta0,e_sum_sec_0);
-			h2_beta_vs_energy_corr->Fill(beta0,e_sum_sec_0*mean_ene/(beta_func->Eval(beta0)));
+			h2_beta_vs_energy_sec0->Fill(beta0,e_sum_sec_0);
+			h2_beta_vs_energy_corr->Fill(beta0,e_sum_sec_0*mean_ene/(beta_func_sec0->Eval(beta0)));
+			h2_beta_vs_energy_corr_sec0->Fill(beta0,e_sum_sec_0*mean_ene/(beta_func_sec0->Eval(beta0)));
 			h2_beta_vs_energy->Fill(beta1,e_sum_sec_1);
-			h2_beta_vs_energy_corr->Fill(beta1,e_sum_sec_1*mean_ene/(beta_func->Eval(beta1)));
-			h2_x_music_vs_energy_messel->Fill(y_sec0[7],e_sum_sec_0*mean_ene/(beta_func->Eval(beta0)));
-			h2_x_music_vs_energy_messel->Fill(y_sec1[7],e_sum_sec_1*mean_ene/(beta_func->Eval(beta1)));
+			h2_beta_vs_energy_sec1->Fill(beta1,e_sum_sec_1);
+			h2_beta_vs_energy_corr->Fill(beta1,e_sum_sec_1*mean_ene/(beta_func_sec1->Eval(beta1)));
+			h2_beta_vs_energy_corr_sec1->Fill(beta1,e_sum_sec_1*mean_ene/(beta_func_sec1->Eval(beta1)));
+			h2_x_music_vs_energy_messel->Fill(y_sec0[7],e_sum_sec_0*mean_ene/(beta_func_sec0->Eval(beta0)));
+			h2_x_music_vs_energy_messel->Fill(y_sec1[7],e_sum_sec_1*mean_ene/(beta_func_sec1->Eval(beta1)));
+			h2_x_music_vs_energy_messel_sec0->Fill(y_sec0[7],e_sum_sec_0*mean_ene/(beta_func_sec0->Eval(beta0)));
+			h2_x_music_vs_energy_messel_sec1->Fill(y_sec1[7],e_sum_sec_1*mean_ene/(beta_func_sec1->Eval(beta1)));
 			//now comes the final energy correction with positioning tspline
-			Double_t beta_corr_energy_sec0 = e_sum_sec_0*mean_ene/(beta_func->Eval(beta0));
-			Double_t beta_corr_energy_sec1 = e_sum_sec_1*mean_ene/(beta_func->Eval(beta1));
-			Double_t pos_corr_energy_sec0 = beta_corr_energy_sec0*200284/(spline_messel->Eval(y_sec0[7]));
-			Double_t pos_corr_energy_sec1 = beta_corr_energy_sec1*200284/(spline_messel->Eval(y_sec1[7]));
+			Double_t beta_corr_energy_sec0 = e_sum_sec_0*mean_ene/(beta_func_sec0->Eval(beta0));
+			Double_t beta_corr_energy_sec1 = e_sum_sec_1*mean_ene/(beta_func_sec1->Eval(beta1));
+			Double_t pos_corr_energy_sec0 = beta_corr_energy_sec0*mean_pos_sec0/(spline_messel_sec0->Eval(y_sec0[7]));
+			Double_t pos_corr_energy_sec1 = beta_corr_energy_sec1*mean_pos_sec1/(spline_messel_sec1->Eval(y_sec1[7]));
+			Double_t charge_sec0 = sec0_c0 + sec0_c1*sqrt(pos_corr_energy_sec0) +sec0_c2*pos_corr_energy_sec0; 
+			Double_t charge_sec1 = sec1_c0 + sec1_c1*sqrt(pos_corr_energy_sec1) +sec1_c2*pos_corr_energy_sec1;
+			h2_x_energy_vs_energy_messel_corr->Fill(charge_sec0,charge_sec1);
+			h2_charge_sum_vs_diff_messel_corr->Fill(charge_sec1-charge_sec0,charge_sec1+charge_sec0);
 			h2_x_music_vs_energy_messel_corr->Fill(y_sec0[7],pos_corr_energy_sec0);
 			h2_x_music_vs_energy_messel_corr->Fill(y_sec1[7],pos_corr_energy_sec1);
+			h1_charge_music_corr_messel->Fill(pos_corr_energy_sec0);
+			h1_charge_music_corr_messel->Fill(pos_corr_energy_sec1);
+			//best possible calibration....
+			h1_charge_music_corr_sec0->Fill(pos_corr_energy_sec0);
+			h1_charge_music_corr_sec1->Fill(pos_corr_energy_sec1);
+			h1_charge_music_corr_sum->Fill(pos_corr_energy_sec0+pos_corr_energy_sec1);
+			h1_charge_music_corr_messel_full_cal->Fill(pos_corr_energy_sec0*slope_messel + offset_messel);
+			h1_charge_music_corr_messel_full_cal->Fill(pos_corr_energy_sec1*slope_messel + offset_messel);
+			h1_charge_music_corr_sum_full_cal->Fill(pos_corr_energy_sec0*slope_messel + offset_messel+pos_corr_energy_sec1*slope_messel + offset_messel);
+			h1_charge_music_corr_messel_full_cal_pol->Fill(pos_corr_energy_sec0);
+			h1_charge_music_corr_messel_full_cal_pol->Fill(pos_corr_energy_sec1);
+			h1_charge_music_corr_sum_full_cal_pol->Fill(pos_corr_energy_sec0+pos_corr_energy_sec1);
+			h1_charge_music_corr_sum_only_messel->Fill(pos_corr_energy_sec0+pos_corr_energy_sec1);
+			//plots only with beta correction:
+			h1_charge_music_corr_messel_only_beta->Fill(beta_corr_energy_sec0);
+			h1_charge_music_corr_messel_only_beta->Fill(beta_corr_energy_sec1);
+			h1_charge_music_corr_sum_only_beta->Fill(beta_corr_energy_sec0+beta_corr_energy_sec1);
+			//plot with sqrt fit
+			h1_one_charge_messel_sqrt->Fill(messel_par0+ messel_par1*sqrt(pos_corr_energy_sec0)+ messel_par2*pos_corr_energy_sec0);
+			h1_one_charge_messel_sqrt->Fill(messel_par0+ messel_par1*sqrt(pos_corr_energy_sec1)+ messel_par2*pos_corr_energy_sec1);
+			h1_sum_charge_messel_sqrt->Fill(messel_par0+ messel_par1*sqrt(pos_corr_energy_sec0)+ messel_par2*pos_corr_energy_sec0+messel_par0+ messel_par1*sqrt(pos_corr_energy_sec1)+ messel_par2*pos_corr_energy_sec1);
+			h1_sum_charge_messel->Fill(pos_corr_energy_sec0+pos_corr_energy_sec1);
+ 			//check precalibrated state
+ 			h1_energy_section1->Fill(e_sum_sec_1);
+ 			h1_energy_section0->Fill(e_sum_sec_0);
+			//if (pos_corr_energy_sec0 < 10 || pos_corr_energy_sec1 < 10){
+			//	cout << "this is eventnr:\t" << evtnr << endl; 
+			//	cout << "e_sum_sec_0:\t" << e_sum_sec_0 << endl;
+			//	cout << "e_sum_sec_1:\t" << e_sum_sec_1 << endl;
+			//	cout << "beta_corr_energy_sec0:\t" << beta_corr_energy_sec0 << endl;
+			//	cout << "beta_corr_energy_sec1:\t" << beta_corr_energy_sec1 << endl;
+			//	cout << "pos_corr_energy_sec0:\t" << pos_corr_energy_sec0 << endl;
+			//	cout << "pos_corr_energy_sec1:\t" << pos_corr_energy_sec1 << endl;
+			//	cout << "spine eval messel:\t" <<  spline_messel->Eval(y_sec0[7]) << endl;
+			//	cout << "spline eval messel:\t" << spline_messel->Eval(y_sec1[7]) << endl;
+			//	}
 
                 }
 			delete  gr_sec0;
@@ -904,19 +1557,68 @@ for(Long64_t i=0;i < nevents;i++){
 	    		Double_t beta2 = ((full_path_sec2/time_of_flight_sec2)*pow(10,7))/299792458;
 			Double_t beta3 = ((full_path_sec3/time_of_flight_sec3)*pow(10,7))/299792458;
 			h2_beta_vs_energy->Fill(beta2,e_sum_sec_2);
-			h2_beta_vs_energy_corr->Fill(beta2,e_sum_sec_2*mean_ene/(beta_func->Eval(beta2)));
+			h2_beta_vs_energy_sec2->Fill(beta2,e_sum_sec_2);
+			h2_beta_vs_energy_corr->Fill(beta2,e_sum_sec_2*mean_ene/(beta_func_sec2->Eval(beta2)));
+			h2_beta_vs_energy_corr_sec2->Fill(beta2,e_sum_sec_2*mean_ene/(beta_func_sec2->Eval(beta2)));
 			h2_beta_vs_energy->Fill(beta3,e_sum_sec_3);
-			h2_beta_vs_energy_corr->Fill(beta3,e_sum_sec_3*mean_ene/(beta_func->Eval(beta3)));
-			h2_x_music_vs_energy_wix->Fill(y_sec2[7],e_sum_sec_2*mean_ene/(beta_func->Eval(beta2)));
-			h2_x_music_vs_energy_wix->Fill(y_sec3[7],e_sum_sec_3*mean_ene/(beta_func->Eval(beta3)));
-
+			h2_beta_vs_energy_sec3->Fill(beta3,e_sum_sec_3);
+			h2_beta_vs_energy_corr->Fill(beta3,e_sum_sec_3*mean_ene/(beta_func_sec3->Eval(beta3)));
+			h2_beta_vs_energy_corr_sec3->Fill(beta3,e_sum_sec_3*mean_ene/(beta_func_sec3->Eval(beta3)));
+			h2_x_music_vs_energy_wix->Fill(y_sec2[7],e_sum_sec_2*mean_ene/(beta_func_sec2->Eval(beta2)));
+			h2_x_music_vs_energy_wix->Fill(y_sec3[7],e_sum_sec_3*mean_ene/(beta_func_sec3->Eval(beta3)));
+			h2_x_music_vs_energy_wix_sec2->Fill(y_sec2[7],e_sum_sec_2*mean_ene/(beta_func_sec2->Eval(beta2)));
+			h2_x_music_vs_energy_wix_sec3->Fill(y_sec3[7],e_sum_sec_3*mean_ene/(beta_func_sec3->Eval(beta3)));
 			//now comes the final energy correction with positioning tspline
-			Double_t beta_corr_energy_sec3 = e_sum_sec_3*mean_ene/(beta_func->Eval(beta3));
-			Double_t beta_corr_energy_sec2 = e_sum_sec_2*mean_ene/(beta_func->Eval(beta2));
-			Double_t pos_corr_energy_sec3 = beta_corr_energy_sec3*217303/(spline_wix->Eval(y_sec3[7]));
-			Double_t pos_corr_energy_sec2 = beta_corr_energy_sec2*217303/(spline_wix->Eval(y_sec2[7]));
+			Double_t beta_corr_energy_sec3 = e_sum_sec_3*mean_ene/(beta_func_sec3->Eval(beta3));
+			Double_t beta_corr_energy_sec2 = e_sum_sec_2*mean_ene/(beta_func_sec2->Eval(beta2));
+			Double_t pos_corr_energy_sec3 = beta_corr_energy_sec3*mean_pos_sec3/(spline_wix_sec3->Eval(y_sec3[7]));
+			Double_t pos_corr_energy_sec2 = beta_corr_energy_sec2*mean_pos_sec2/(spline_wix_sec2->Eval(y_sec2[7]));
+			Double_t charge_sec2 = sec2_c0 + sec2_c1*sqrt(pos_corr_energy_sec2) +sec2_c2*pos_corr_energy_sec2;
+			Double_t charge_sec3 = sec3_c0 + sec3_c1*sqrt(pos_corr_energy_sec3) +sec3_c2*pos_corr_energy_sec3;
+			h2_x_energy_vs_energy_wix_corr->Fill(charge_sec2,charge_sec3);
+			h2_charge_sum_vs_diff_wix_corr->Fill(charge_sec3-charge_sec2,charge_sec2+charge_sec3);
+			
+
 			h2_x_music_vs_energy_wix_corr->Fill(y_sec2[7],pos_corr_energy_sec2);
 			h2_x_music_vs_energy_wix_corr->Fill(y_sec3[7],pos_corr_energy_sec3);
+			h1_charge_music_corr_wix->Fill(pos_corr_energy_sec2);
+			h1_charge_music_corr_wix->Fill(pos_corr_energy_sec3);
+			//best possible calibration ....
+			h1_charge_music_corr_sec2->Fill(pos_corr_energy_sec2);
+			h1_charge_music_corr_sec3->Fill(pos_corr_energy_sec3);
+
+			h1_charge_music_corr_sum->Fill(pos_corr_energy_sec3+pos_corr_energy_sec2);
+			h1_charge_music_corr_wix_full_cal->Fill(pos_corr_energy_sec2*slope_wix + offset_wix);
+			h1_charge_music_corr_wix_full_cal->Fill(pos_corr_energy_sec3*slope_wix + offset_wix);
+			h1_charge_music_corr_sum_full_cal->Fill(pos_corr_energy_sec2*slope_wix + offset_wix+pos_corr_energy_sec3*slope_wix + offset_wix);
+			h1_charge_music_corr_wix_full_cal_pol->Fill(messel_c0 +messel_c1*pos_corr_energy_sec2+messel_c2*pow(pos_corr_energy_sec2,2)+messel_c3*pow(pos_corr_energy_sec2,3)+messel_c4*pow(pos_corr_energy_sec2,4)+messel_c5*pow(pos_corr_energy_sec2,5)+messel_c6*pow(pos_corr_energy_sec2,6));
+			h1_charge_music_corr_wix_full_cal_pol->Fill(messel_c0 +messel_c1*pos_corr_energy_sec3+messel_c2*pow(pos_corr_energy_sec3,2)+messel_c3*pow(pos_corr_energy_sec3,3)+messel_c4*pow(pos_corr_energy_sec3,4)+messel_c5*pow(pos_corr_energy_sec3,5)+messel_c6*pow(pos_corr_energy_sec3,6));
+			h1_charge_music_corr_sum_full_cal_pol->Fill(messel_c0 +messel_c1*pos_corr_energy_sec2+messel_c2*pow(pos_corr_energy_sec2,2)+messel_c3*pow(pos_corr_energy_sec2,3)+messel_c4*pow(pos_corr_energy_sec2,4)+messel_c5*pow(pos_corr_energy_sec2,5)+messel_c6*pow(pos_corr_energy_sec2,6)+messel_c0 +messel_c1*pos_corr_energy_sec3+messel_c2*pow(pos_corr_energy_sec3,2)+messel_c3*pow(pos_corr_energy_sec3,3)+messel_c4*pow(pos_corr_energy_sec3,4)+messel_c5*pow(pos_corr_energy_sec3,5)+messel_c6*pow(pos_corr_energy_sec3,6));
+			h1_charge_music_corr_sum_only_wix->Fill(pos_corr_energy_sec2+pos_corr_energy_sec3);
+			//plots only with beta correction:
+			h1_charge_music_corr_wix_only_beta->Fill(beta_corr_energy_sec2);
+			h1_charge_music_corr_wix_only_beta->Fill(beta_corr_energy_sec3);
+			h1_charge_music_corr_sum_only_beta->Fill(beta_corr_energy_sec2+beta_corr_energy_sec3);
+			//plot with sqrt fit
+			h1_one_charge_wixh_sqrt->Fill(wix_par0+ wix_par1*sqrt(pos_corr_energy_sec3)+wix_par2*pos_corr_energy_sec3);
+			h1_one_charge_wixh_sqrt->Fill(wix_par0+ wix_par1*sqrt(pos_corr_energy_sec2)+wix_par2*pos_corr_energy_sec2);
+			h1_sum_charge_wixh_sqrt->Fill(wix_par0+ wix_par1*sqrt(pos_corr_energy_sec3)+wix_par2*pos_corr_energy_sec3+wix_par0+ wix_par1*sqrt(pos_corr_energy_sec2)+wix_par2*pos_corr_energy_sec2);
+			h1_sum_charge_wixh->Fill(pos_corr_energy_sec3+pos_corr_energy_sec2);
+ 			//check precalibrated state
+ 			h1_energy_section2->Fill(e_sum_sec_2);
+ 			h1_energy_section3->Fill(e_sum_sec_3);
+			
+			//if (pos_corr_energy_sec2 < 10 || pos_corr_energy_sec3 < 10){
+			//	cout << "this is eventnr:\t" << evtnr << endl; 
+			//	cout << "e_sum_sec_2:\t" << e_sum_sec_2 << endl;
+			//	cout << "e_sum_sec_3:\t" << e_sum_sec_3 << endl;
+			//	cout << "beta_corr_energy_sec2:\t" << beta_corr_energy_sec2 << endl;
+			//	cout << "beta_corr_energy_sec3:\t" << beta_corr_energy_sec3 << endl;
+			//	cout << "pos_corr_energy_sec2:\t" << pos_corr_energy_sec2 << endl;
+			//	cout << "pos_corr_energy_sec3:\t" << pos_corr_energy_sec3 << endl;
+			//	cout << "spine eval wix:\t" << spline_wix->Eval(y_sec2[7]) << endl;
+			//	cout << "spline eval wix:\t" << spline_messel->Eval(y_sec3[7]) << endl;
+			//	}
 
 			//cout << "pahtlength\t" << full_path_sec2 << endl;
 			//cout << "time of flight\t" << time_of_flight_sec2 << endl;
@@ -944,38 +1646,82 @@ char f_out_name[500];
 sprintf(f_out_name,"/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/data/beta_corr/beta_vs_energy_subrun_%s.root",input_str.c_str());
 TFile * f = new TFile(f_out_name,"RECREATE");
 TList *l = new TList();
-for (Int_t i = 0; i < 16; i++){
-	l->Add(h2_deltax_xal_sec0[i]);
-	}
-for (Int_t i = 0; i < 16; i++){
-	l->Add(h2_deltax_xal_sec1[i]);
-	}
-for (Int_t i = 0; i < 16; i++){
-	l->Add(h2_deltax_xal_sec2[i]);
-	}
-for (Int_t i = 0; i < 16; i++){
-	l->Add(h2_deltax_xal_sec3[i]);
-	}
-for (Int_t i = 0; i < 29; i++){
-	l->Add(h2_tofns_vs_ypos[i]);
-	}
-for (Int_t i = 0; i < 29; i++){
-	l->Add(h2_tofns_vs_ypos2X2Y_LD_RU[i]);
-	}
-for (Int_t i = 0; i < 29; i++){
-	l->Add(h2_tofns_vs_ypos2X2Y_LU_RD[i]);
-	}
-for (Int_t i = 0; i < 29; i++){
-	l->Add(h2_tofns_vs_ypos2X2Y_L[i]);
-	}
-for (Int_t i = 0; i < 29; i++){
-	l->Add(h2_tofns_vs_ypos2X2Y_R[i]);
-	}
+//for (Int_t i = 0; i < 16; i++){
+//	l->Add(h2_deltax_xal_sec0[i]);
+//	}
+//for (Int_t i = 0; i < 16; i++){
+//	l->Add(h2_deltax_xal_sec1[i]);
+//	}
+//for (Int_t i = 0; i < 16; i++){
+//	l->Add(h2_deltax_xal_sec2[i]);
+//	}
+//for (Int_t i = 0; i < 16; i++){
+//	l->Add(h2_deltax_xal_sec3[i]);
+//	}
+//for (Int_t i = 0; i < 29; i++){
+//	l->Add(h2_tofns_vs_ypos[i]);
+//	}
+//for (Int_t i = 0; i < 29; i++){
+//	l->Add(h2_tofns_vs_ypos2X2Y_LD_RU[i]);
+//	}
+//for (Int_t i = 0; i < 29; i++){
+//	l->Add(h2_tofns_vs_ypos2X2Y_LU_RD[i]);
+//	}
+//for (Int_t i = 0; i < 29; i++){
+//	l->Add(h2_tofns_vs_ypos2X2Y_L[i]);
+//	}
+//for (Int_t i = 0; i < 29; i++){
+//	l->Add(h2_tofns_vs_ypos2X2Y_R[i]);
+//	}
 l->Add(h2_beta_vs_energy);
+l->Add(h2_beta_vs_energy_corr_sec0);
+l->Add(h2_beta_vs_energy_corr_sec1);
+l->Add(h2_beta_vs_energy_corr_sec2);
+l->Add(h2_beta_vs_energy_corr_sec3);
 l->Add(h2_beta_vs_energy_corr);
 l->Add(h2_x_music_vs_energy_messel);
 l->Add(h2_x_music_vs_energy_wix);
 l->Add(h2_x_music_vs_energy_wix_corr);
 l->Add(h2_x_music_vs_energy_messel_corr);
+l->Add(h1_charge_music_corr_wix);
+l->Add(h1_charge_music_corr_messel);	
+l->Add(h1_charge_music_corr_sum);
+l->Add(h1_charge_music_corr_wix_full_cal);
+l->Add(h1_charge_music_corr_messel_full_cal);
+l->Add(h1_charge_music_corr_sum_full_cal);
+l->Add(h1_charge_music_corr_wix_full_cal_pol);
+l->Add(h1_charge_music_corr_messel_full_cal_pol);
+l->Add(h1_charge_music_corr_sum_full_cal_pol);
+l->Add(h1_charge_music_corr_sum_only_wix);
+l->Add(h1_charge_music_corr_sum_only_messel);
+l->Add(h1_charge_music_corr_messel_only_beta);
+l->Add(h1_charge_music_corr_wix_only_beta);
+l->Add(h1_charge_music_corr_sum_only_beta);
+l->Add(h1_one_charge_wixh_sqrt);
+l->Add(h1_sum_charge_wixh_sqrt);
+l->Add(h1_one_charge_messel_sqrt);
+l->Add(h1_sum_charge_messel_sqrt);
+l->Add(h1_sum_charge_wixh);
+l->Add(h1_sum_charge_messel);
+l->Add(h1_energy_section0);
+l->Add(h1_energy_section1);
+l->Add(h1_energy_section2);
+l->Add(h1_energy_section3);
+l->Add(h2_beta_vs_energy_sec0);
+l->Add(h2_beta_vs_energy_sec1);
+l->Add(h2_beta_vs_energy_sec2);
+l->Add(h2_beta_vs_energy_sec3);
+l->Add(h2_x_music_vs_energy_messel_sec0);
+l->Add(h2_x_music_vs_energy_messel_sec1);
+l->Add(h2_x_music_vs_energy_wix_sec2);
+l->Add(h2_x_music_vs_energy_wix_sec3);
+l->Add(h1_charge_music_corr_sec0);
+l->Add(h1_charge_music_corr_sec1);
+l->Add(h1_charge_music_corr_sec2);
+l->Add(h1_charge_music_corr_sec3);
+l->Add(h2_x_energy_vs_energy_wix_corr);
+l->Add(h2_charge_sum_vs_diff_wix_corr);
+l->Add(h2_x_energy_vs_energy_messel_corr);
+l->Add(h2_charge_sum_vs_diff_messel_corr);
 l->Write("histlist", TObject::kSingleKey);
 }
