@@ -202,25 +202,6 @@ else{
 }
 
 vector<vector<double> > tof_and_y_calibrated(TClonesArray* mw3_clone,TClonesArray* tofsingletcal_clone){
-	//const Int_t nev = -1;
-	//TString sofiacalfilename = "/scratch8/ge37liw/workingspace/exp_s455/R3BRoot/sofia/macros/s455Up2p/parameters/CalibParam_antia_040422.par";
-	//FairRunAna* run = new FairRunAna();
-	//FairRuntimeDb* rtdb = run->GetRuntimeDb();
-	//FairParAsciiFileIo* parIo1 = new FairParAsciiFileIo();
-	//TList* parList1 = new TList();
-	//parList1->Add(new TObjString(sofiacalfilename));
-	//parIo1->open(parList1);
-	//rtdb->setFirstInput(parIo1);
-	//rtdb->print();
-	//run->Init();
-	//FairLogger::GetLogger()->SetLogScreenLevel("INFO");
-	//if (nev > -1)
-    //    run->Run(nev);
-    //else
-    //    run->Run();
-	//parameters_for TOFW calibration y position
-	//FairRuntimeDb* rtdb = FairRuntimeDb::instance();
-	//R3BSofTofWHitPar* fTofWHitPar = (R3BSofTofWHitPar*)rtdb->getContainer("tofwHitPar");
 	fstream fin4;
 	fin4.open("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/macros/tof_params.csv", ios::in); 
 	string line4, word4;
@@ -314,7 +295,7 @@ vector<vector<double> > tof_and_y_calibrated(TClonesArray* mw3_clone,TClonesArra
 		Double_t calibrated_y_pos = posy_ns*v_para_tof_y[paddle_ID][1]+v_para_tof_y[paddle_ID][2];
 		//cout << "uncalibrated time:\t" << tofsingletcal_data[j]->GetRawTofNs() << endl;
 		//cout << "time:\t" << tof_time << endl;
-		vector<double> temp_vec{tof_time,calibrated_y_pos,(Double_t) paddle_ID};
+		vector<double> temp_vec{tof_time,calibrated_y_pos,(Double_t) paddle_ID,(Double_t) paddle_ID};
 		tof_hits.push_back(temp_vec);
 		temp_vec.clear();
 		}
@@ -322,6 +303,7 @@ vector<vector<double> > tof_and_y_calibrated(TClonesArray* mw3_clone,TClonesArra
 	if (tof_hits[0][2] < tof_hits[1][2]){
 		tof_hits[0][2] = peaks_X_mw3[1];
 		tof_hits[1][2] = peaks_X_mw3[0];
+
 		}
 	if (tof_hits[0][2] > tof_hits[1][2]){
 		tof_hits[0][2] = peaks_X_mw3[0];
@@ -329,8 +311,8 @@ vector<vector<double> > tof_and_y_calibrated(TClonesArray* mw3_clone,TClonesArra
 		}
 	if (tof_hits[0][2] == tof_hits[1][2]){
 		tof_hits = {
-                {-1000,-1000,-1000},
-                {-1000,-1000,-1000}
+                {-1000,-1000,-1000,-1000},
+                {-1000,-1000,-1000,-1000}
                 };
 		}
 	delete [] tofsingletcal_data;
@@ -338,10 +320,106 @@ vector<vector<double> > tof_and_y_calibrated(TClonesArray* mw3_clone,TClonesArra
 	}
 	else {
 	vector<vector<double> > dummy_vec {
-                {-1000,-1000,-1000},
-                {-1000,-1000,-1000}
+                {-1000,-1000,-1000,-1000},
+                {-1000,-1000,-1000,-1000}
                 };
 	return dummy_vec;
 	}
+
+	}
+
+
+//single hit 238U reconstruction
+
+vector<double> single_tof_and_y_calibrated(TClonesArray* mw3_clone,TClonesArray* tofsingletcal_clone){
+	fstream fin4;
+	fin4.open("/scratch8/ge37liw/workingspace/exp_s455/my_macros/twim_calibration_docu/macros/tof_params.csv", ios::in); 
+	string line4, word4;
+	vector<vector<double> > v_para_tof_y;
+	getline(fin4, line4);
+	while(fin4.peek()!=EOF) {
+		getline(fin4, line4);
+		stringstream s(line4);
+		vector<double> temp_vec;
+		while (getline(s, word4, ',')) {     temp_vec.push_back(stod(word4));
+		}
+		v_para_tof_y.push_back(temp_vec);
+		
+		temp_vec.clear();
+	}
+	R3BMwpcCalData** mwpc3_caldata;
+	Int_t entries_mw3_cal =  mw3_clone->GetEntriesFast();
+	mwpc3_caldata = new R3BMwpcCalData*[entries_mw3_cal];	
+	vector<double> vec_X_mw3(288,0);
+	for (Int_t j = 0; j < entries_mw3_cal;j++){
+		mwpc3_caldata[j] = (R3BMwpcCalData*)mw3_clone->At(j);
+		Int_t planeId = mwpc3_caldata[j]->GetPlane();
+		Int_t padId = mwpc3_caldata[j]->GetPad()-1;
+		Double_t charge = mwpc3_caldata[j]->GetQ();
+		if (planeId == 1){ //X-PLANE IN MW3
+			vec_X_mw3[padId] = charge;
+			}
+		}
+	//get peaks from mw3
+	vector<double> peaks_X_mw3;
+	
+	for (Int_t i = 0; i < 2;i++){
+		Int_t max_element_index_mw3_X = max_element(vec_X_mw3.begin(),vec_X_mw3.end())-vec_X_mw3.begin();
+		Double_t max_element_mw3_X = *max_element(vec_X_mw3.begin(),vec_X_mw3.end());
+		//MW3 X
+		if (max_element_mw3_X > 200){
+			Double_t q_left;
+	        Double_t q_right;
+			Double_t q_max = vec_X_mw3[max_element_index_mw3_X];
+			if (max_element_index_mw3_X == 0){
+			 	q_left=1;
+				q_right = vec_X_mw3[max_element_index_mw3_X+1];
+				}
+			else if (max_element_index_mw3_X == 287){
+			 	q_right=1;
+				q_left = vec_X_mw3[max_element_index_mw3_X-1];
+				}
+			else {
+				q_left = vec_X_mw3[max_element_index_mw3_X-1];
+				q_right = vec_X_mw3[max_element_index_mw3_X+1];
+				}
+			if (q_left == 0){
+				q_left=1;
+				}
+			if(q_right==0){
+				q_right=1;
+				}
+			peaks_X_mw3.push_back(get_mw3_pos_X(q_max,max_element_index_mw3_X,q_left,q_right));
+			if (max_element_index_mw3_X == 0){
+				vec_X_mw3[max_element_index_mw3_X] = 0;
+				vec_X_mw3[max_element_index_mw3_X+1] = 0;
+				}	
+			else if (max_element_index_mw3_X == 287){
+				vec_X_mw3[max_element_index_mw3_X] = 0;
+				vec_X_mw3[max_element_index_mw3_X-1] = 0;
+				}	
+			else {
+				vec_X_mw3[max_element_index_mw3_X] = 0;
+				vec_X_mw3[max_element_index_mw3_X+1] = 0;
+				vec_X_mw3[max_element_index_mw3_X-1] = 0;
+				}
+			}
+		}
+
+	if (peaks_X_mw3.size() == 1 && tofsingletcal_clone->GetEntriesFast() == 1){
+		R3BSofTofWSingleTcalData** tofsingletcal_data;
+		tofsingletcal_data = new R3BSofTofWSingleTcalData*[1];
+		tofsingletcal_data[0] = (R3BSofTofWSingleTcalData*)tofsingletcal_clone->At(0);
+		Int_t paddle_ID = tofsingletcal_data[0]->GetDetector();
+		Double_t posy_ns = tofsingletcal_data[0]->GetRawPosNs();
+		Double_t tof_time = tofsingletcal_data[0]->GetRawTofNs();
+		tof_time = tof_time - tof_offset[paddle_ID-1] + tof_lise;
+		Double_t calibrated_y_pos = posy_ns*v_para_tof_y[paddle_ID][1]+v_para_tof_y[paddle_ID][2];
+		vector<double> tof_hit{tof_time,calibrated_y_pos,peaks_X_mw3[0],(Double_t) paddle_ID};
+		delete [] tofsingletcal_data;
+		return tof_hit;
+		}
+	else 
+		return {-1000,-1000,-1000,-1000};
 
 	}

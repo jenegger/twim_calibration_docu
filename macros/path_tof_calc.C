@@ -116,7 +116,6 @@ vector<double> path_tof_calc (double psi_in,double xMW1,double xMW3,double t_tof
         Double_t rho =  (Leff/(2*sin((psi_in+psi_out)/2)))*sqrt(pow(((m+tan(alpha_G))/(1-m*tan(alpha_G))),2)+1);
         Double_t w = 2*abs(asin(BD/(2*rho)));
 
-
         delete gr1;
         delete gr2;
         delete gr3;
@@ -126,6 +125,6 @@ vector<double> path_tof_calc (double psi_in,double xMW1,double xMW3,double t_tof
 	//cout << "second part:\t" << rho*w+abs((zToFW-z_D)/cos(psi_out)) << endl;
 	//cout << "psi in:\t" << psi_in << endl;
 	Double_t time_of_flight = t_tof - t_start - time_start_target;
-	vector<double> v_return = {path_from_target,time_of_flight};
+	vector<double> v_return = {path_from_target,time_of_flight,rho};
 	return v_return;
 }

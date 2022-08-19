@@ -92,6 +92,167 @@ cout << "This is position of first peak on messel side,section0:\t" << v_peaks_m
 cout << "This is position of first peak on messel side,section1:\t" << v_peaks_messel_sec1[0] << endl;
 cout << "This is position of first peak on wixhausen side,section2:\t" << v_peaks_wix_sec2[0] << endl;
 cout << "This is position of first peak on wixhausen side,section3:\t" << v_peaks_wix_sec3[0] << endl;
+
+for (int i = 0; i < 5; i++){
+    v_peaks_wix_sec2.erase(v_peaks_wix_sec2.end()-1);
+    v_peaks_wix_sec3.erase(v_peaks_wix_sec3.end()-1);
+    v_peaks_messel_sec0.erase(v_peaks_messel_sec0.end()-1);
+    v_peaks_messel_sec1.erase(v_peaks_messel_sec1.end()-1);
+    }
+
+for (int i = 0; i < 5; i++){
+    v_peaks_wix_sec2.erase(v_peaks_wix_sec2.end()-1);
+    v_peaks_wix_sec3.erase(v_peaks_wix_sec3.end()-1);
+    v_peaks_messel_sec0.erase(v_peaks_messel_sec0.end()-1);
+    v_peaks_messel_sec1.erase(v_peaks_messel_sec1.end()-1);
+    }
+
+
+Double_t distance_peaks_wix = (v_peaks_wix_sec2[1]-v_peaks_wix_sec2[0]+v_peaks_wix_sec3[1]-v_peaks_wix_sec3[0])/2.;
+vector<double> v_first_entries_wix{v_peaks_wix_sec2[0],v_peaks_wix_sec3[0]};
+cout << "first entry sec2 " << v_first_entries_wix[0] << endl;
+cout << "first entry sec3" << v_first_entries_wix[1] << endl;
+Int_t max_first_peak_wix = max_element(v_first_entries_wix.begin(),v_first_entries_wix.end()) - v_first_entries_wix.begin();
+vector<vector<double> > v_full_wix;
+v_full_wix.push_back(v_peaks_wix_sec2);
+v_full_wix.push_back(v_peaks_wix_sec3);
+vector<double> reduce_size{-1,-1};
+for (int j = 0; j < 2; j++){
+	bool peak_search = true;
+	int p = 0;
+	while (peak_search){
+		Double_t diff_peaks = abs(v_full_wix[max_first_peak_wix][0] - v_full_wix[j][p]);
+		if (diff_peaks < distance_peaks_wix){
+			peak_search = false;
+			reduce_size[j] = p;
+			}
+		p+=1;
+		}
+	}
+cout << "reduce size:\t" << reduce_size[0] << "    " << reduce_size[1] << endl;
+for (int i = 0; i<reduce_size[0]; i++){
+	v_peaks_wix_sec2.erase(v_peaks_wix_sec2.begin());
+	}
+
+for (int i = 0; i<reduce_size[1]; i++){
+	v_peaks_wix_sec3.erase(v_peaks_wix_sec3.begin());
+	}
+vector<int> size_data_arr{-1,-1};
+size_data_arr[0] = v_peaks_wix_sec2.size();
+size_data_arr[1] = v_peaks_wix_sec3.size();
+cout << "first element of sec2: \t" << v_peaks_wix_sec2[0] << endl;
+cout << "first element of sec3:\t" << v_peaks_wix_sec3[0] << endl;
+cout << "size sec2 " << v_peaks_wix_sec2.size() << "   and of section 3:\t" <<v_peaks_wix_sec3.size() << endl;
+if (size_data_arr[0] > size_data_arr[1]){
+	cout <<  "FOOO" << endl;
+	for (int i = 0; i < (size_data_arr[0]-size_data_arr[1]); i++){
+		v_peaks_wix_sec2.erase(v_peaks_wix_sec2.end()-1);
+		}
+	cout << "SECTION2" << endl;
+	for (int i = 0; i < size_data_arr[1]; i++){
+		cout << v_peaks_wix_sec2[i] << endl;	
+		}
+	cout << "SECTION3" << endl;
+	for (int i = 0; i < size_data_arr[1]; i++){
+		cout << v_peaks_wix_sec3[i] << endl;	
+		}
+	}
+if (size_data_arr[0] < size_data_arr[1]){
+	cout << "BAAARR" << endl;
+	for (int i = 0; i < (size_data_arr[1]-size_data_arr[0]); i++){
+		v_peaks_wix_sec3.erase(v_peaks_wix_sec3.end()-1);
+		}
+	cout << "SECTION2" << endl;
+	for (int i = 0; i < size_data_arr[0]; i++){
+		cout << v_peaks_wix_sec2[i] << endl;	
+		}
+	cout << "SECTION3" << endl;
+	for (int i = 0; i < size_data_arr[0]; i++){
+		cout << v_peaks_wix_sec3[i] << endl;	
+		}
+	}
+if (size_data_arr[0] == size_data_arr[1]){
+	cout << "THE LENGTH IS THE SAME; CONTINUE::::"<< endl;
+	}
+
+
+cout << "......section0.........." << endl;
+for (int i = 0; i < v_peaks_messel_sec0.size(); i++){
+cout << v_peaks_messel_sec0[i] << endl;
+}
+cout << "................................" << endl;
+cout << "......section1.........." << endl;
+for (int i = 0; i < v_peaks_messel_sec1.size(); i++){
+cout << v_peaks_messel_sec1[i] << endl;
+}
+cout << "................................" << endl;
+Double_t distance_peaks_messel = 0.6*(v_peaks_messel_sec0[1]-v_peaks_messel_sec0[0]+v_peaks_messel_sec1[1]-v_peaks_messel_sec1[0])/2.;
+cout << "distance between peaks:\t" << distance_peaks_messel << endl;
+vector<double> v_first_entries_messel{v_peaks_messel_sec0[0],v_peaks_messel_sec1[0]};
+cout << "first entry sec2 " << v_first_entries_messel[0] << endl;
+cout << "first entry sec3" << v_first_entries_messel[1] << endl;
+Int_t max_first_peak_messel = max_element(v_first_entries_messel.begin(),v_first_entries_messel.end()) - v_first_entries_messel.begin();
+vector<vector<double> > v_full_messel;
+v_full_messel.push_back(v_peaks_messel_sec0);
+v_full_messel.push_back(v_peaks_messel_sec1);
+vector<double> reduce_size_messel{-1,-1};
+for (int j = 0; j < 2; j++){
+	bool peak_search = true;
+	int p = 0;
+	while (peak_search){
+		Double_t diff_peaks = abs(v_full_messel[max_first_peak_messel][0] - v_full_messel[j][p]);
+		if (diff_peaks < distance_peaks_messel){
+			peak_search = false;
+			reduce_size_messel[j] = p;
+			}
+		p+=1;
+		}
+	}
+cout << "reduce size:\t" << reduce_size_messel[0] << "    " << reduce_size_messel[1] << endl;
+for (int i = 0; i<reduce_size_messel[0]; i++){
+	v_peaks_messel_sec0.erase(v_peaks_messel_sec0.begin());
+	}
+
+for (int i = 0; i<reduce_size_messel[1]; i++){
+	v_peaks_messel_sec1.erase(v_peaks_messel_sec1.begin());
+	}
+vector<int> size_data_arr_messel{-1,-1};
+size_data_arr_messel[0] = v_peaks_messel_sec0.size();
+size_data_arr_messel[1] = v_peaks_messel_sec1.size();
+cout << "first element of sec0: \t" << v_peaks_messel_sec0[0] << endl;
+cout << "first element of sec1:\t" << v_peaks_messel_sec1[0] << endl;
+cout << "size sec0 " << v_peaks_messel_sec0.size() << "   and of section 1:\t" <<v_peaks_messel_sec1.size() << endl;
+if (size_data_arr_messel[0] > size_data_arr_messel[1]){
+	cout <<  "FOOO" << endl;
+	for (int i = 0; i < (size_data_arr_messel[0]-size_data_arr_messel[1]); i++){
+		v_peaks_messel_sec0.erase(v_peaks_messel_sec0.end()-1);
+		}
+	cout << "SECTION0" << endl;
+	for (int i = 0; i < size_data_arr_messel[1]; i++){
+		cout << v_peaks_messel_sec0[i] << endl;	
+		}
+	cout << "SECTION1" << endl;
+	for (int i = 0; i < size_data_arr_messel[1]; i++){
+		cout << v_peaks_messel_sec1[i] << endl;	
+		}
+	}
+if (size_data_arr_messel[0] < size_data_arr_messel[1]){
+	cout << "BAAARR" << endl;
+	for (int i = 0; i < (size_data_arr_messel[1]-size_data_arr_messel[0]); i++){
+		v_peaks_messel_sec1.erase(v_peaks_messel_sec1.end()-1);
+		}
+	cout << "SECTION0" << endl;
+	for (int i = 0; i < size_data_arr_messel[0]; i++){
+		cout << v_peaks_messel_sec0[i] << endl;	
+		}
+	cout << "SECTION1" << endl;
+	for (int i = 0; i < size_data_arr_messel[0]; i++){
+		cout << v_peaks_messel_sec1[i] << endl;	
+		}
+	}
+if (size_data_arr_messel[0] == size_data_arr_messel[1]){
+	cout << "THE LENGTH IS THE SAME; CONTINUE::::"<< endl;
+	}
 //Double_t distance_peaks = (v_peaks_wix[0] - v_peaks_wix[1] + v_peaks_messel[0] + v_peaks_messel[1])/2.;
 //vector<double> v_first_entries_sec{v_peaks_wix[0],v_peaks_messel[0]};
 //Int_t max_first_peak_sec = max_element(v_first_entries_sec.begin(),v_first_entries_sec.end()) - v_first_entries_sec.begin();
@@ -136,18 +297,18 @@ cout << "This is position of first peak on wixhausen side,section3:\t" << v_peak
 //		v_peaks_messel.erase(v_peaks_messel.end()-1);
 //		}
 //	}
-for (int i = 5; i < 8; i++){
-	v_peaks_messel_sec0.erase(v_peaks_messel_sec0.begin());
-	v_peaks_messel_sec1.erase(v_peaks_messel_sec1.begin());
-	v_peaks_wix_sec2.erase(v_peaks_wix_sec2.begin());
-	v_peaks_wix_sec3.erase(v_peaks_wix_sec3.begin());
-	}
-for (int i = 0; i < 5; i++){
-	v_peaks_wix_sec2.erase(v_peaks_wix_sec2.end()-1);
-	v_peaks_wix_sec3.erase(v_peaks_wix_sec3.end()-1);
-	v_peaks_messel_sec0.erase(v_peaks_messel_sec0.end()-1);
-	v_peaks_messel_sec1.erase(v_peaks_messel_sec1.end()-1);
-	}
+//for (int i = 0; i < 8; i++){
+//	v_peaks_messel_sec0.erase(v_peaks_messel_sec0.begin());
+//	v_peaks_messel_sec1.erase(v_peaks_messel_sec1.begin());
+//	v_peaks_wix_sec2.erase(v_peaks_wix_sec2.begin());
+//	v_peaks_wix_sec3.erase(v_peaks_wix_sec3.begin());
+//	}
+//for (int i = 0; i < 8; i++){
+//	v_peaks_wix_sec2.erase(v_peaks_wix_sec2.end()-1);
+//	v_peaks_wix_sec3.erase(v_peaks_wix_sec3.end()-1);
+//	v_peaks_messel_sec0.erase(v_peaks_messel_sec0.end()-1);
+//	v_peaks_messel_sec1.erase(v_peaks_messel_sec1.end()-1);
+//	}
 //min_data_size = v_peaks_wix.size();
 //
 //vector<int>charge_number;
@@ -159,31 +320,39 @@ for (int i = 0; i < 5; i++){
 //
 vector<int> charge_number_sec0;
 Double_t y_sec0[v_peaks_messel_sec0.size()],x_sec0[v_peaks_messel_sec0.size()];
+cout << "**********Section0************" << endl;
 for (int i = 0; i< v_peaks_messel_sec0.size(); i++){
 	charge_number_sec0.push_back(i);	
 	y_sec0[i] = i;	
 	x_sec0[i] = v_peaks_messel_sec0[i];
+	cout << "Peaknumber:\t" << i << "\t" << "Peakposition:\t" << v_peaks_messel_sec0[i] << endl;
 	}
 vector<int> charge_number_sec1;
 Double_t y_sec1[v_peaks_messel_sec1.size()],x_sec1[v_peaks_messel_sec1.size()];
+cout << "**********Section1************" << endl;
 for (int i = 0; i< v_peaks_messel_sec1.size(); i++){
 	charge_number_sec1.push_back(i);	
 	y_sec1[i] = i;
 	x_sec1[i] = v_peaks_messel_sec1[i];
+	cout << "Peaknumber:\t" << i << "\t" << "Peakposition:\t" << v_peaks_messel_sec1[i] << endl;
 	}
 vector<int> charge_number_sec2;
 Double_t y_sec2[v_peaks_wix_sec2.size()],x_sec2[v_peaks_wix_sec2.size()];
+cout << "**********Section2************" << endl;
 for (int i = 0; i< v_peaks_wix_sec2.size(); i++){
 	charge_number_sec2.push_back(i);	
 	y_sec2[i] = i;
 	x_sec2[i] = v_peaks_wix_sec2[i];
+	cout << "Peaknumber:\t" << i << "\t" << "Peakposition:\t" << v_peaks_wix_sec2[i] << endl;
 	}
 vector<int> charge_number_sec3;
 Double_t y_sec3[v_peaks_wix_sec3.size()],x_sec3[v_peaks_wix_sec3.size()];
+cout << "**********Section2************" << endl;
 for (int i = 0; i< v_peaks_wix_sec3.size(); i++){
 	charge_number_sec3.push_back(i);	
 	y_sec3[i] = i;
 	x_sec3[i] = v_peaks_wix_sec3[i];
+	cout << "Peaknumber:\t" << i << "\t" << "Peakposition:\t" << v_peaks_wix_sec3[i] << endl;
 	}
 TCanvas *c1 = new TCanvas("c1","Canvas for Fit");
 c1->Divide(2,2);
